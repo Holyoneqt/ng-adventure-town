@@ -1,0 +1,11 @@
+<h1 mat-headline>Development Settings</h1>
+<mat-form-field>
+  <input matInput type="number" placeholder="Gold" [(ngModel)]="devGoldInput" style="width: 100%">
+</mat-form-field>
+<mat-form-field>
+  <input matInput type="number" placeholder="Wood" [(ngModel)]="devWoodInput" style="width: 100%">
+</mat-form-field>
+<mat-form-field>
+  <input matInput type="number" placeholder="Stone" [(ngModel)]="devStoneInput" style="width: 100%">
+</mat-form-field>
+<button mat-raised-button (click)="devAdd()">Add</button>

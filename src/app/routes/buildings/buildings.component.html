@@ -1,0 +1,11 @@
+<mat-list>
+  <mat-list-item *ngFor="let building of buildings">
+    <h1 mat-line>{{building.name}}</h1>
+    <p mat-line> {{building.description}} | Level {{building.level}}/{{building.maxLevel}}</p>
+    <h3 *ngIf="!building.isMaxLevel()" mat-line>Next Level</h3>
+    <h3 *ngIf="building.isMaxLevel()" mat-line>Max. Level</h3>
+    <p mat-line *ngFor="let cost of building.getPriceInfo()">{{cost.amount}} {{cost.type}}</p>
+    <button *ngIf="!building.isMaxLevel()" mat-mini-fab (click)="levelUp(building)"><mat-icon>plus_one</mat-icon></button>
+    <mat-divider></mat-divider>
+  </mat-list-item>
+</mat-list>

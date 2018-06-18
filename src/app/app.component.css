@@ -1,0 +1,25 @@
+::ng-deep .message-success {
+    background: #5cb85c;
+}
+
+::ng-deep .message-info {
+    background: #5bc0de;
+}
+
+::ng-deep .message-error {
+    background: #d9534f;
+}
+
+.app-grid-tile {
+    height: 95%;
+}
+
+.app-grid-tile-left {
+    border-right: 1px solid;
+}
+
+.router-container {
+    position: absolute;
+    top: 1%;
+    width: 98%;
+}

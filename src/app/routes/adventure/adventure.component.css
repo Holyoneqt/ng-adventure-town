@@ -1,0 +1,10 @@
+.button-row-center {
+    display:block;
+    margin:0 auto;
+    width: fit-content;
+    padding: 2%;
+}
+
+.button-row-center > button {
+    margin: 0 3px;
+}

@@ -1,20 +1,86 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<mat-toolbar color="primary">
+  <button mat-button (click)="routeTo('adventure')">Adventure</button>
+  <button mat-button (click)="routeTo('buildings')">Buildings</button>
 
+  <button mat-mini-fab (click)="saveGame()" style="background: #F6F7F9; margin-left: auto;">
+    <mat-icon>save</mat-icon>
+  </button>
+
+  <button mat-mini-fab (click)="dmg()" style="background: #F6F7F9; margin-left: 2%">
+    <mat-icon>whatshot</mat-icon>
+  </button>
+
+  <button mat-mini-fab (click)="heal()" style="background: #F6F7F9; margin-left: 2%">
+    <mat-icon>local_hospital</mat-icon>
+  </button>
+
+  <button mat-mini-fab (click)="incSta()" style="background: #F6F7F9; margin-left: 2%">
+    <mat-icon>plus_one</mat-icon>
+  </button>
+
+  <button mat-mini-fab (click)="routeTo('settings')" style="background: #F6F7F9; margin-left: 2%">
+    <mat-icon>settings</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-grid-list cols="5">
+  <mat-grid-tile colspan="1" class="app-grid-tile app-grid-tile-left">
+    <div class="full-width" style="position: absolute; top: 0;">
+      <mat-list class="full-width">
+        <mat-list-item>
+          <mat-progress-bar mat-line color="primary" mode="determinate" [value]="champ.expPercent">
+          </mat-progress-bar>
+          <p mat-subheader style="position: absolute; top: 15px; left: 0">{{champ.exp}} / {{champ.expReq}}</p>
+          <p mat-subheader style="position: absolute; top: 15px; right: 0">Level {{champ.attributes.level}}</p>
+        </mat-list-item>
+        <mat-divider style="margin-top: 12px;"></mat-divider>
+        <mat-list-item>
+          <mat-progress-bar mat-line color="warn" mode="determinate" [value]="champ.healthPercent">
+          </mat-progress-bar>
+          <p mat-subheader style="position: absolute; top: 15px; left: 0">{{champ.attributes.currentHealth}} / {{champ.attributes.maxHealth}}</p>
+        </mat-list-item>
+        <mat-divider style="margin-top: 12px;"></mat-divider>
+        <mat-list-item>
+          <mat-progress-bar mat-line color="accent" mode="determinate" [value]="champ.manaPercent">
+          </mat-progress-bar>
+          <p mat-subheader style="position: absolute; top: 15px; left: 0">{{champ.attributes.currentMana}} / {{champ.attributes.maxMana}}</p>
+        </mat-list-item>
+        <mat-divider style="margin-top: 12px;"></mat-divider>
+        <mat-list-item>
+          <p mat-line>Stamina: {{champ.attributes.stamina}}</p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <p mat-line>Strength: {{champ.attributes.strength}}</p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <p mat-line>Spell Power: {{champ.attributes.spellPower}}</p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-list>
+    </div>
+
+    <div class="full-width" style="position: absolute; top: 65%;">
+      <mat-list class="full-width">
+        <mat-list-item>
+          <p mat-line>Gold: {{game.get('Gold')}}</p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <p mat-line>Wood: {{game.get('Wood')}}</p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <p mat-line>Stone: {{game.get('Stone')}}</p>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="4" class="app-grid-tile">
+    <div class="router-container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
