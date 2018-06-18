@@ -23,12 +23,21 @@ export class Champion extends Entity {
         this.strength$.next(4);
         this.spellPower$.next(3);
 
-        this.heal(this.getPercent(this.attributes.maxHealth, 100));
+        this.currentHealth$.next(this.attributes.maxHealth);
 
         // Selfheal by 2% every second
         interval(1000).subscribe(() => this.heal(this.getPercentOf(this.attributes.maxHealth, 2)));
         // Mana-Reg: 1% every second
         interval(1000).subscribe(() => this.regenerateMana(this.getPercentOf(this.attributes.maxMana, 1)));
+    }
+
+    private onExpChange(changeVal: number): void {
+        this.exp = changeVal;
+        this.expPercent = this.getPercent(this.expReq, this.exp);
+
+        if (this.exp >= this.expReq) {
+            this.levelUp();
+        }
     }
 
     public gainExp(amount: number): void {
@@ -42,14 +51,6 @@ export class Champion extends Entity {
         this.exp$.next(0);
     }
 
-    private onExpChange(changeVal: number): void {
-        this.exp = changeVal;
-        this.expPercent = this.getPercent(this.expReq, this.exp);
-
-        if (this.exp >= this.expReq) {
-            this.levelUp();
-        }
-    }
 
     public importSave(save: any): Champion {
         save = JSON.parse(save);

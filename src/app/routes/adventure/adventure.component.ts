@@ -1,12 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 import { Enemy } from '../../game/models/entities/enemy.model';
-import { Spells } from '../../game/models/spells/spell.model';
 import { Adventure } from './../../game/models/adventure.model';
 import { Champion } from './../../game/models/entities/champion.model';
 import { DataService } from './../../game/services/data.service';
-
+  
 @Component({
   selector: 'app-adventure',
   templateUrl: './adventure.component.html',
@@ -49,8 +48,8 @@ export class AdventureComponent implements OnInit, OnDestroy {
   }
 
   public heal(): void {
-    console.log(Spells.Heal);
-    this.champ.castSpell(Spells.Heal);
+    // console.log(Spells.Heal);
+    // this.champ.castSpell(Spells.Heal);
   }
 
   public enemyTurn(): void {

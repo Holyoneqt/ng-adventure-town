@@ -3,16 +3,16 @@ import { Entity } from './../entities/entity.model';
 
 export abstract class Spell {
 
-    name: string;
-    rank: number;
+    public name: string;
+    public rank: number;
+    public manaCost: number;
 
-    cost: number;
-    cast: (c: Entity, t?: Entity) => void;
+    public icon: string;
+    public color: string;
 
-}
+    protected spMod: number;
 
-export class Spells {
-
-    public static Heal = new Heal();
+    public cast(c: Entity, t?: Entity): void {}
+    public loadRank(rank: number): void {}
 
 }

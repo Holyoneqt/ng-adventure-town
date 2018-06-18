@@ -25,6 +25,7 @@ export class Enemy extends Entity {
     
         this.currentHealth$.next(this.attributes.maxHealth);
 
+        // TODO: change dynamically
         this.expReward = 50;
     }
 

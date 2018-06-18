@@ -18,7 +18,7 @@ export class BuildingService {
         return this.buildings.find(b => b.name === building);
     }
 
-    public initialize(buildings: Building[], save: { name, level }[]): void {
+    public import(buildings: Building[], save: { name, level }[]): void {
         this.buildings = buildings;
         this.buildings.forEach(b => {
             const found = save.find(s => s.name === b.name);

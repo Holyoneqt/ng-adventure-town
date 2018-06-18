@@ -7,12 +7,15 @@ import { Mine } from './../models/buildings/mine.model';
 import { Game } from './../models/game.model';
 import { BuildingService } from './building.service';
 import { Resource } from '../models/resources.enum';
+import { Spell } from '../models/spells/spell.model';
+import { Heal } from '../models/spells/heal.spell';
 
 @Injectable()
 export class DataService {
 
     private readonly gameKey: string = 'game';
     private readonly buildingKey: string = 'buildings';
+    private readonly spellsKey: string = 'spells';
     private game: Game;
 
     constructor(private buildingService: BuildingService) {
@@ -37,12 +40,18 @@ export class DataService {
             this.initializeLoadedGame(JSON.parse(localGame));
         }
 
+        
+    }
+
+    private loadBuildings(): void {
         const buildingsLocal = localStorage.getItem(this.buildingKey);
         const buildingsSave = buildingsLocal !== null ? JSON.parse(buildingsLocal) : [];
+        
         const buildings: Building[] = [];
         buildings.push(new Lumbermill(this.game));
         buildings.push(new Mine(this.game));
-        this.buildingService.initialize(buildings, buildingsSave);
+        
+        this.buildingService.import(buildings, buildingsSave);
     }
 
     private saveBuildings(): void {
@@ -50,6 +59,16 @@ export class DataService {
         const save: { name: string, level: number }[] = [];
         buildings.forEach(b => save.push({ name: b.name, level: b.level }));
         localStorage.setItem(this.buildingKey, JSON.stringify(save));
+    }
+
+    private loadSpells(): void {
+        const spellsLocal = localStorage.getItem(this.spellsKey);
+        const spellsSave = spellsLocal !== null ? JSON.parse(spellsLocal) : [];
+
+        const spells: Spell[] = [];
+        spells.push(new Heal());
+
+        
     }
 
     private initializeLoadedGame(localStorageValue: any) {

@@ -146,8 +146,8 @@ export class Entity {
     }
 
     public castSpell(spell: Spell, target?: Entity) {
-        if (this.manaAvailable(spell.cost)) {
-            this.spendMana(spell.cost);
+        if (this.manaAvailable(spell.manaCost)) {
+            this.spendMana(spell.manaCost);
             spell.cast(this, target);
         }
     }
