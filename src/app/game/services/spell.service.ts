@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Building } from './../models/building.model';
-import { Buildings } from './../models/buildings/buildings.enum';
 import { Spell } from '../models/spells/spell.model';
+import { Spells } from './../models/spells/spells.enum';
 
 @Injectable()
 export class SpellService {
@@ -15,16 +14,20 @@ export class SpellService {
         return this.spells;
     }
 
-    public get(spell: Spell): Spell {
-        return this.spells.find(s => s.name === spell.name);
+    public get(spell: Spells): Spell {
+        return this.spells.find(s => s.name === spell);
     }
 
-    // public import(spells: Building[], save: { name, level }[]): void {
-    //     this.spells = buildings;
-    //     this.spells.forEach(b => {
-    //         const found = save.find(s => s.name === b.name);
-    //         b.level = found ? found.level : b.level;
-    //     });
-    // }
+    public import(spells: Spell[], save: { name, rank }[]): void {
+        this.spells = spells;
+        this.spells.forEach(s => {
+            const found = save.find(saveFind => saveFind.name === s.name);
+            if (found) {
+                s.loadRank(found.rank);
+            } else {
+                s.loadRank(s.rank);
+            }
+        });
+    }
 
 }

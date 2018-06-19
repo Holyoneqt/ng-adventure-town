@@ -1,14 +1,14 @@
-import { Champion } from '../models/entities/champion.model';
 import { Injectable } from '@angular/core';
 
 import { Lumbermill } from '../models/buildings/lumbermill.model';
+import { Resource } from '../models/resources.enum';
+import { Heal } from '../models/spells/heal.spell';
+import { Spell } from '../models/spells/spell.model';
 import { Building } from './../models/building.model';
 import { Mine } from './../models/buildings/mine.model';
 import { Game } from './../models/game.model';
 import { BuildingService } from './building.service';
-import { Resource } from '../models/resources.enum';
-import { Spell } from '../models/spells/spell.model';
-import { Heal } from '../models/spells/heal.spell';
+import { SpellService } from './spell.service';
 
 @Injectable()
 export class DataService {
@@ -18,7 +18,7 @@ export class DataService {
     private readonly spellsKey: string = 'spells';
     private game: Game;
 
-    constructor(private buildingService: BuildingService) {
+    constructor(private buildingService: BuildingService, private spellService: SpellService) {
     }
 
     public getGame(): Game {
@@ -28,6 +28,7 @@ export class DataService {
     public saveGame(): void {
         localStorage.setItem(this.gameKey, this.game.exportSave());
         this.saveBuildings();
+        this.saveSpells();
     }
 
     public loadData(): void {
@@ -40,7 +41,8 @@ export class DataService {
             this.initializeLoadedGame(JSON.parse(localGame));
         }
 
-        
+        this.loadBuildings();
+        this.loadSpells();
     }
 
     private loadBuildings(): void {
@@ -66,9 +68,16 @@ export class DataService {
         const spellsSave = spellsLocal !== null ? JSON.parse(spellsLocal) : [];
 
         const spells: Spell[] = [];
-        spells.push(new Heal());
+        spells.push(new Heal());        
 
-        
+        this.spellService.import(spells, spellsSave);
+    }
+
+    private saveSpells(): void {
+        const spells = this.spellService.getAll();
+        const save: { name: string, rank: number }[] = [];
+        spells.forEach(s => save.push({name: s.name, rank: s.rank}));
+        localStorage.setItem(this.spellsKey, JSON.stringify(save));
     }
 
     private initializeLoadedGame(localStorageValue: any) {

@@ -1,11 +1,11 @@
-import { Champion } from './game/models/entities/champion.model';
-import { MessageService, MessageType } from './services/message.service';
-import { Game } from './game/models/game.model';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { DataService } from './game/services/data.service';
+import { Champion } from './game/models/entities/champion.model';
 import { Stat } from './game/models/entities/stats.enum';
+import { Game } from './game/models/game.model';
+import { DataService } from './game/services/data.service';
+import { MessageService, MessageType } from './services/message.service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +28,7 @@ export class AppComponent {
 
   public saveGame(): void {
     this.dataService.saveGame();
+    this.messageService.writeMessage(MessageType.Success, 'Game saved!');
   }
 
   private initialize(): void {

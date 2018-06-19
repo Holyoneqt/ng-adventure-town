@@ -1,7 +1,7 @@
-import { Spell } from './../spells/spell.model';
-import { EntityConstants } from './../constants/entities.constants';
-import { BehaviorSubject, empty, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
+import { EntityConstants } from './../constants/entities.constants';
+import { Spell } from './../spells/spell.model';
 import { Stat } from './stats.enum';
 
 interface EntityAttributes {
@@ -142,11 +142,13 @@ export class Entity {
     }
 
     protected spendMana(amount: number): void {
-        this.currentMana$.next(this.attributes.currentMana -= amount);
+        const newManaPool = this.attributes.currentMana -= amount;
+        this.currentMana$.next(newManaPool);
     }
 
     public castSpell(spell: Spell, target?: Entity) {
         if (this.manaAvailable(spell.manaCost)) {
+            console.log('Casting Spell', spell.name, 'on', target);
             this.spendMana(spell.manaCost);
             spell.cast(this, target);
         }

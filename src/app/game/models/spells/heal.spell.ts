@@ -1,12 +1,13 @@
 import { Entity } from './../entities/entity.model';
 import { Resource } from './../resources.enum';
 import { Spell } from './spell.model';
+import { Spells } from './spells.enum';
 
 export class Heal extends Spell {
     
     constructor() {
         super();
-        this.name = 'Heal';
+        this.name = Spells.Heal;
         this.icon = 'local_hospital';
         this.color = 'primary';
         this.loadRank(1);
@@ -14,9 +15,7 @@ export class Heal extends Spell {
     
     public cast(caster: Entity, target?: Entity): void {
         target = (target) ? target : caster; // Check if Target is available, else its a selfcast
-        if (caster.manaAvailable(this.manaCost)) {
-            target.heal(caster.attributes.spellPower * 5);
-        }
+        target.heal(caster.attributes.spellPower * this.spMod);
     }
 
     public loadRank(rank: number): void {

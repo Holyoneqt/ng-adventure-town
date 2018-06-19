@@ -4,7 +4,10 @@ import { interval, Subscription } from 'rxjs';
 import { Enemy } from '../../game/models/entities/enemy.model';
 import { Adventure } from './../../game/models/adventure.model';
 import { Champion } from './../../game/models/entities/champion.model';
+import { Spells } from './../../game/models/spells/spells.enum';
 import { DataService } from './../../game/services/data.service';
+import { SpellService } from './../../game/services/spell.service';
+
   
 @Component({
   selector: 'app-adventure',
@@ -19,7 +22,7 @@ export class AdventureComponent implements OnInit, OnDestroy {
   public enemy: Enemy;
   private enemyInterval: Subscription;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private spellService: SpellService) { }
 
   ngOnInit() {
     this.champ = this.dataService.getGame().champion;
@@ -48,8 +51,7 @@ export class AdventureComponent implements OnInit, OnDestroy {
   }
 
   public heal(): void {
-    // console.log(Spells.Heal);
-    // this.champ.castSpell(Spells.Heal);
+    this.champ.castSpell(this.spellService.get(Spells.Heal));
   }
 
   public enemyTurn(): void {
