@@ -15,10 +15,6 @@
     <mat-icon>save</mat-icon>
   </button>
 
-  <button mat-mini-fab (click)="incSta()" style="background: #F6F7F9; margin-left: 2%">
-    <mat-icon>plus_one</mat-icon>
-  </button>
-
   <button mat-mini-fab (click)="routeTo('settings')" style="background: #F6F7F9; margin-left: 2%">
     <mat-icon>settings</mat-icon>
   </button>
@@ -68,15 +64,15 @@
     <div class="full-width" style="position: absolute; top: 65%;">
       <mat-list class="full-width">
         <mat-list-item>
-          <p mat-line>Gold: {{game.get('Gold')}}</p>
+          <p mat-line>Gold: {{game.get(resourceGold)}}</p>
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item>
-          <p mat-line>Wood: {{game.get('Wood')}}</p>
+          <p mat-line>Wood: {{game.get(resourceWood)}}</p>
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item>
-          <p mat-line>Stone: {{game.get('Stone')}}</p>
+          <p mat-line>Stone: {{game.get(resourceStone)}}</p>
         </mat-list-item>
       </mat-list>
     </div>

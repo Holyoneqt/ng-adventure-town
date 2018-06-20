@@ -11,7 +11,7 @@ import { BuildingService } from './../../game/services/building.service';
 })
 export class BuildingsComponent implements OnInit {
 
-  private buildings: Building[];
+  public buildings: Building[];
 
   constructor(private buildingService: BuildingService, private messageService: MessageService) { }
 

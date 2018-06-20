@@ -1,3 +1,4 @@
+import { Resource } from './game/models/resources.enum';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -15,6 +16,10 @@ import { MessageService, MessageType } from './services/message.service';
 export class AppComponent implements OnInit {
 
   public game: Game;
+  public resourceGold: Resource;
+  public resourceWood: Resource;
+  public resourceStone: Resource;
+
   public champ: Champion;
   public skillPointAvailable: boolean; 
 
@@ -25,6 +30,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.champ.skillPoints.subscribe(change => this.skillPointAvailable = (change > 0));
+    this.resourceGold = Resource.Gold;
+    this.resourceWood = Resource.Wood;
+    this.resourceStone = Resource.Stone;
   }
 
   public increaseStat(stat: Stat): void {
