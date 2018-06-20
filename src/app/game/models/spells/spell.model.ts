@@ -1,10 +1,14 @@
-import { SpellRankData } from './../interfaces.model';
-import { HealSpell } from './heal.spell';
 import { Entity } from './../entities/entity.model';
+import { Game } from './../game.model';
+import { SpellRankData } from './../interfaces.model';
 
 export abstract class Spell {
 
+    protected game: Game;
+
     public name: string;
+    public description: string;
+
     public rank: number;
     public manaCost: number;
 
@@ -13,10 +17,29 @@ export abstract class Spell {
 
     protected spMod: number;
 
-    public cast(c: Entity, t?: Entity): void {}
+    constructor(game: Game) {
+        this.game = game;
+    }
+
+    public cast(c: Entity, t?: Entity): void {} 
+    
+    public increaseRank(): boolean {
+        const cost = this.getNextSpellRankData().cost;
+        console.log(cost);
+        if (this.game.resourceAvailable(cost.type, cost.amount)) {
+            this.game.remove(cost.type, cost.amount);
+            this.rank++;
+            this.loadRank(this.rank);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public getNextSpellRankData(): SpellRankData {
         return undefined;
     }
+    
     public loadRank(rank: number): void {}
 
 }

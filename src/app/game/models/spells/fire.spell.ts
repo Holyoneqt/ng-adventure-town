@@ -1,13 +1,14 @@
-import { SpellRankData } from './../interfaces.model';
 import { Entity } from './../entities/entity.model';
+import { Game } from './../game.model';
+import { SpellRankData } from './../interfaces.model';
 import { Resource } from './../resources.enum';
 import { Spell } from './spell.model';
 import { Spells } from './spells.enum';
 
 export class FireSpell extends Spell {
     
-    constructor() {
-        super();
+    constructor(game: Game) {
+        super(game);
         this.name = Spells.Fire;
         this.icon = 'whatshot';
         this.color = 'warn';
@@ -16,11 +17,13 @@ export class FireSpell extends Spell {
     
     public cast(caster: Entity, target?: Entity): void {
         target = (target) ? target : caster; // Check if Target is available, else its a selfcast
-        target.takeDamage(caster.spellPower.get() * this.spMod);
+        target.takeDamage(caster.spellDamage.get() * this.spMod);
     }
 
     public getNextSpellRankData(): SpellRankData {
-        return fireRanks[this.rank + 1];
+        const data = fireRanks[this.rank + 1];
+        this.description = `Deals ${data.spMod * this.game.champion.spellDamage.get()} Damage. (Cost: ${data.manaCost} Mana)`;
+        return data;
     }
 
     public loadRank(rank: number): void {

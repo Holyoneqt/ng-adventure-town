@@ -1,6 +1,10 @@
 <button *ngIf="!adv" mat-raised-button (click)="start()" color="accent" class="full-width">Start Adventure</button>
+<mat-toolbar *ngIf="adventureFinished" class="full-width background-success small-margin">
+  Adventure Finished!
+</mat-toolbar>
+<button *ngIf="adventureFinished" mat-raised-button (click)="takeLoot()" color="accent" class="full-width">Take Loot</button>
 
-<div *ngIf="adv">
+<div *ngIf="adv && !adventureFinished">
   <mat-slider class="full-width" disabled="true" [max]="adv.waves" min="1" step="1" [(ngModel)]="adv.currentWave"></mat-slider>
 
   <mat-list class="full-width">
@@ -32,5 +36,5 @@
     </button>
   </div>
 
-  <button *ngIf="enemy.isDead()" mat-raised-button (click)="nextWave()" color="accent" class="full-width">Next Wave</button>
+  <button *ngIf="enemy.isDead() && !adventureFinished" mat-raised-button (click)="nextWave()" color="accent" class="full-width">Next Wave</button>
 </div>

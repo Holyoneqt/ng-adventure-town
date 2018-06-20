@@ -1,4 +1,5 @@
 import { Entity } from './../entities/entity.model';
+import { Game } from './../game.model';
 import { SpellRankData } from './../interfaces.model';
 import { Resource } from './../resources.enum';
 import { Spell } from './spell.model';
@@ -6,8 +7,8 @@ import { Spells } from './spells.enum';
 
 export class HealSpell extends Spell {
     
-    constructor() {
-        super();
+    constructor(game: Game) {
+        super(game);
         this.name = Spells.Heal;
         this.icon = 'local_hospital';
         this.color = 'primary';
@@ -20,7 +21,9 @@ export class HealSpell extends Spell {
     }
 
     public getNextSpellRankData(): SpellRankData {
-        return healRanks[this.rank + 1];
+        const data = healRanks[this.rank + 1]; 
+        this.description = `Heals you for ${data.spMod * this.game.champion.spellPower.get()} Healthpoints. (Cost: ${data.manaCost} Mana)`;
+        return data;
     }
 
     public loadRank(rank: number): void {

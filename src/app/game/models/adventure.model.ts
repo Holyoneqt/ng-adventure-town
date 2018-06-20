@@ -1,4 +1,5 @@
 import { Enemy } from './entities/enemy.model';
+
 export class Adventure {
 
     public waves: number;
@@ -7,7 +8,7 @@ export class Adventure {
     public enemies: Enemy[];
 
     constructor() {
-        this.waves = 5;
+        this.waves = 1;
         this.currentWave = 1;
 
         this.enemies = [];
@@ -21,6 +22,10 @@ export class Adventure {
 
     public getCurrentEnemy(): Enemy {
         return this.enemies[this.currentWave - 1];
+    }
+
+    public isLastWave(): boolean {
+        return this.currentWave >= this.waves;
     }
 
 }

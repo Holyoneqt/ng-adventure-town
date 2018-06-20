@@ -69,8 +69,8 @@ export class DataService {
         const spellsSave = spellsLocal !== null ? JSON.parse(spellsLocal) : [];
 
         const spells: Spell[] = [];
-        spells.push(new HealSpell());
-        spells.push(new FireSpell());   
+        spells.push(new HealSpell(this.game));
+        spells.push(new FireSpell(this.game));   
 
         this.spellService.import(spells, spellsSave);
     }

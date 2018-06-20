@@ -1,4 +1,4 @@
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { EntityConstants } from './../constants/entities.constants';
 import { Spell } from './../spells/spell.model';
@@ -68,7 +68,7 @@ export class Entity {
     }
 
     protected onSpellPowerChange(changeVal: number): void {
-        this.spellDamage.set(changeVal * 5);
+        this.spellDamage.set(changeVal * 3);
     }
 
     protected onCurrentHealthChange(changeVal: number): void {

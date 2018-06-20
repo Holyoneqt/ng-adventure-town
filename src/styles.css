@@ -1,5 +1,22 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 .full-width {
-    width: 98%;
+    width: 100%;
+}
+
+.small-margin {
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.background-success {
+    background: #5cb85c;
+}
+
+.background-info {
+    background: #5bc0de;
+}
+
+.background-error {
+    background: #d9534f;
 }
