@@ -1,4 +1,5 @@
-import { Heal } from './heal.spell';
+import { SpellRankData } from './../interfaces.model';
+import { HealSpell } from './heal.spell';
 import { Entity } from './../entities/entity.model';
 
 export abstract class Spell {
@@ -13,6 +14,9 @@ export abstract class Spell {
     protected spMod: number;
 
     public cast(c: Entity, t?: Entity): void {}
+    public getNextSpellRankData(): SpellRankData {
+        return undefined;
+    }
     public loadRank(rank: number): void {}
 
 }

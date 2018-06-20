@@ -1,5 +1,6 @@
 export enum Spells {
 
-    Heal = 'Heal'
+    Heal = 'Heal',
+    Fire = 'Fire',
 
 }

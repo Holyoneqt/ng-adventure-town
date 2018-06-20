@@ -5,11 +5,12 @@ import {
     MatIconModule,
     MatInputModule,
     MatListModule,
+    MatMenuModule,
     MatProgressBarModule,
+    MatSliderModule,
     MatSnackBarModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatSliderModule,
 } from '@angular/material';
 
 @NgModule({
@@ -19,6 +20,7 @@ import {
         MatIconModule,
         MatTooltipModule,
         MatToolbarModule,
+        MatMenuModule,
         MatListModule,
         MatGridListModule,
         MatProgressBarModule,

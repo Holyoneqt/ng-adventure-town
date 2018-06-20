@@ -42,15 +42,6 @@ export class AppComponent {
     this.champ.onDeath.subscribe(() => this.messageService.writeMessage(MessageType.Error, 'You died!'));
   }
 
-
-  public dmg() {
-    this.champ.takeDamage(9);
-  }
-
-  public heal() {
-    this.champ.heal(3);
-  }
-
   incSta() {
     this.champ.increaseStat(Stat.Stamina, 1);
   }

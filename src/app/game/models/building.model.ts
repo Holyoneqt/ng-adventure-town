@@ -1,3 +1,4 @@
+import { Price } from './interfaces.model';
 import { interval } from 'rxjs';
 
 import { TickDuration } from '../models/constants/constants';
@@ -16,7 +17,7 @@ export class Building {
     public maxLevel: number;
 
     protected priceType: Resource;
-    protected prices: ({ type: Resource, amount: number }[])[];
+    protected prices: Price[][];
 
     constructor(game: Game, name: string, desc: string, maxLevel: number) {
         this.game = game;

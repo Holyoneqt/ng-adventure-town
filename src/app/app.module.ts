@@ -12,6 +12,7 @@ import { MaterialModule } from './modules/material.module';
 import { AdventureComponent } from './routes/adventure/adventure.component';
 import { BuildingsComponent } from './routes/buildings/buildings.component';
 import { HomeComponent } from './routes/home/home.component';
+import { MagicTrainerComponent } from './routes/magic-trainer/magic-trainer.component';
 import { SettingsComponent } from './routes/settings/settings.component';
 import { MessageService } from './services/message.service';
 
@@ -21,6 +22,7 @@ import { MessageService } from './services/message.service';
     HomeComponent,
     AdventureComponent,
     BuildingsComponent,
+    MagicTrainerComponent,
     SettingsComponent,
   ],
   imports: [

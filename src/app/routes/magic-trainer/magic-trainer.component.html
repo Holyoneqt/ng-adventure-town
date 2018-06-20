@@ -1,0 +1,8 @@
+<mat-list>
+  <mat-list-item *ngFor="let spell of spells">
+    <h1 mat-line>{{spell.name}}</h1>
+    <p mat-line>Next Rank costs: {{spell.getNextSpellRankData().cost.amount}} {{spell.getNextSpellRankData().cost.type}}</p>
+    <button mat-raised-button color="primary">Learn</button>
+    <mat-divider></mat-divider>
+  </mat-list-item>
+</mat-list>

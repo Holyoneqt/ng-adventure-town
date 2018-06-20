@@ -1,17 +1,18 @@
 <mat-toolbar color="primary">
   <button mat-button (click)="routeTo('adventure')">Adventure</button>
   <button mat-button (click)="routeTo('buildings')">Buildings</button>
+  <button mat-button [matMenuTriggerFor]="menuTrainer">Trainers</button>
+  <mat-menu #menuTrainer>
+    <button mat-menu-item (click)="routeTo('magic-trainer')">Magic Trainer</button>
+  </mat-menu>
+  <button mat-button [matMenuTriggerFor]="menuShops">Shops</button>
+  <mat-menu #menuShops>
+    <button mat-menu-item>Weapon Shop</button>
+    <button mat-menu-item>Magic Shop</button>
+  </mat-menu>
 
   <button mat-mini-fab (click)="saveGame()" style="background: #F6F7F9; margin-left: auto;">
     <mat-icon>save</mat-icon>
-  </button>
-
-  <button mat-mini-fab (click)="dmg()" style="background: #F6F7F9; margin-left: 2%">
-    <mat-icon>whatshot</mat-icon>
-  </button>
-
-  <button mat-mini-fab (click)="heal()" style="background: #F6F7F9; margin-left: 2%">
-    <mat-icon>local_hospital</mat-icon>
   </button>
 
   <button mat-mini-fab (click)="incSta()" style="background: #F6F7F9; margin-left: 2%">

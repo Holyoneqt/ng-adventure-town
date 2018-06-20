@@ -24,7 +24,10 @@
   </mat-list>
 
   <div *ngIf="!enemy.isDead()" class="button-row-center">
-    <button mat-fab color="warn" (click)="attack()">
+    <button mat-fab color="accent" (click)="attack()">
+      <mat-icon>gavel</mat-icon>
+    </button>
+    <button mat-fab color="warn" (click)="fireSpell()">
       <mat-icon>whatshot</mat-icon>
     </button>
     <button mat-fab color="primary" (click)="heal()">

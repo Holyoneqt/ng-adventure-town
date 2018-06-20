@@ -54,6 +54,10 @@ export class AdventureComponent implements OnInit, OnDestroy {
     this.champ.castSpell(this.spellService.get(Spells.Heal));
   }
 
+  public fireSpell(): void {
+    this.champ.castSpell(this.spellService.get(Spells.Fire), this.enemy);
+  }
+
   public enemyTurn(): void {
     this.champ.takeDamage(this.enemy.attributes.physicalDamage);
   }

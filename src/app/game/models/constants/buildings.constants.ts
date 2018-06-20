@@ -1,8 +1,9 @@
+import { Price } from './../interfaces.model';
 import { Resource } from './../resources.enum';
 
 export class LumbermillConstants {
 
-    public static Prices = [ 
+    public static Prices: Price[][] = [ 
         [ { type: Resource.Gold, amount: 5 } ],
         [ { type: Resource.Gold, amount: 8 } ],
         [ { type: Resource.Gold, amount: 10 } ],

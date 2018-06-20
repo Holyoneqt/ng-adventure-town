@@ -2,16 +2,16 @@ export class EntityConstants {
 
     public static ManaValues = [
         10,
+        12,
+        15,
+        18,
         20,
-        40,
-        55,
-        65,
-        80,
-        100,
-        110,
-        120,
-        140,
-        150
+        25,
+        28,
+        30,
+        32,
+        35,
+        40
     ];
 
     public static EnemyNames = [

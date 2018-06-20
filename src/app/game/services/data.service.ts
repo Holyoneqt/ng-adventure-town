@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Lumbermill } from '../models/buildings/lumbermill.model';
 import { Resource } from '../models/resources.enum';
-import { Heal } from '../models/spells/heal.spell';
+import { FireSpell } from '../models/spells/fire.spell';
+import { HealSpell } from '../models/spells/heal.spell';
 import { Spell } from '../models/spells/spell.model';
 import { Building } from './../models/building.model';
 import { Mine } from './../models/buildings/mine.model';
@@ -68,7 +69,8 @@ export class DataService {
         const spellsSave = spellsLocal !== null ? JSON.parse(spellsLocal) : [];
 
         const spells: Spell[] = [];
-        spells.push(new Heal());        
+        spells.push(new HealSpell());
+        spells.push(new FireSpell());   
 
         this.spellService.import(spells, spellsSave);
     }
