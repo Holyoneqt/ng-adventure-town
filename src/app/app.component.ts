@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Champion } from './game/models/entities/champion.model';
@@ -12,14 +12,24 @@ import { MessageService, MessageType } from './services/message.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  private game: Game;
-  private champ: Champion;
+  public game: Game;
+  public champ: Champion;
+  public skillPointAvailable: boolean; 
 
   constructor(private router: Router, private dataService: DataService, private messageService: MessageService) {
     this.initialize();
     this.initGlobalMessageEvents();
+  }
+
+  ngOnInit() {
+    this.champ.skillPoints.subscribe(change => this.skillPointAvailable = (change > 0));
+  }
+
+  public increaseStat(stat: Stat): void {
+    this.champ.increaseStat(stat, 1);
+    this.champ.skillPoints.decrease(1);
   }
 
   public routeTo(route: string): void {
@@ -38,12 +48,9 @@ export class AppComponent {
   }
 
   public initGlobalMessageEvents(): void {
-    this.champ.level$.subscribe(l => this.messageService.writeMessage(MessageType.Success, `You reached Level ${l}!`));
+    this.champ.level.subscribe(l => this.messageService.writeMessage(MessageType.Success, `You reached Level ${l}!`));
     this.champ.onDeath.subscribe(() => this.messageService.writeMessage(MessageType.Error, 'You died!'));
   }
 
-  incSta() {
-    this.champ.increaseStat(Stat.Stamina, 1);
-  }
 
 }

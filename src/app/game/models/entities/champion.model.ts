@@ -1,98 +1,113 @@
+import { NumberAttribute } from './attributes/number-attribute.model';
 import { interval, BehaviorSubject } from 'rxjs';
 
 import { Entity } from './entity.model';
 
 export class Champion extends Entity {
 
-    public exp$: BehaviorSubject<number>;
-    public exp: number;
+    public exp: NumberAttribute;
     public expReq: number;
     public expPercent: number;
 
+    public skillPoints: NumberAttribute;
+
     constructor() {
         super();
-        this.level$.next(1);
-        this.exp$ = new BehaviorSubject(0);
-        this.exp$.subscribe(e => this.onExpChange(e));
+        this.level.set(1);
+        this.skillPoints = new NumberAttribute(0);
+        this.level.subscribe(change => {
+            if (change !== 1) {
+                this.skillPoints.increase(1);
+            }
+        });
+
+        this.exp = new NumberAttribute(0);
+        this.exp.subscribe(e => this.onExpChange(e));
         this.expReq = 100;
 
         this.baseHealth = 50;
         this.baseDamage = 2;
 
-        this.stamina$.next(5);
-        this.strength$.next(4);
-        this.spellPower$.next(3);
+        this.stamina.set(5);
+        this.strength.set(4);
+        this.spellPower.set(3);
 
-        this.currentHealth$.next(this.attributes.maxHealth);
+        this.currentHealth.set(this.maxHealth.get());
+        this.currentMana.set(this.maxMana.get());
 
         // Selfheal by 2% every second
-        interval(1000).subscribe(() => this.heal(this.getPercentOf(this.attributes.maxHealth, 2)));
+        interval(1000).subscribe(() => {
+            if (!this.isDead()) {
+                this.heal(this.getPercentOf(this.maxHealth.get(), 2));
+            }
+        });
         // Mana-Reg: 1% every second
-        interval(1000).subscribe(() => this.regenerateMana(this.getPercentOf(this.attributes.maxMana, 1)));
+        interval(1000).subscribe(() => this.regenerateMana(this.getPercentOf(this.maxMana.get(), 1)));
     }
 
     private onExpChange(changeVal: number): void {
-        this.exp = changeVal;
-        this.expPercent = this.getPercent(this.expReq, this.exp);
+        this.expPercent = this.getPercent(this.expReq, changeVal);
 
-        if (this.exp >= this.expReq) {
+        if (changeVal >= this.expReq) {
             this.levelUp();
         }
     }
 
     public gainExp(amount: number): void {
-        this.exp += amount;
-        this.exp$.next(this.exp);
+        this.exp.increase(amount);
     }
 
     public levelUp(): void {
-        this.level$.next(this.attributes.level + 1);
+        this.level.increase(1);
         this.expReq *= 1.5;
-        this.exp$.next(0);
+        this.exp.set(0);
     }
-
 
     public importSave(save: any): Champion {
         save = JSON.parse(save);
         console.log(save);
-        this.level$.next(save.level);
-        this.exp = save.exp;
+        this.level.set(save.level);
+        this.exp.set(save.exp);
         this.expReq = save.expReq;
         this.expPercent = save.expPercent;
-        this.currentHealth$.next(save.currentHealth);
-        this.maxHealth$.next(save.maxHealth);
+        this.currentHealth.set(save.currentHealth);
+        this.maxHealth.set(save.maxHealth);
         this.healthPercent = save.healthPercent;
-        this.currentMana$.next(save.currentMana);
-        this.maxMana$.next(save.maxMana);
+        this.currentMana.set(save.currentMana);
+        this.maxMana.set(save.maxMana);
         this.manaPercent = save.manaPercent;
-        this.attributes.physicalDamage = save.damage;
-        this.stamina$.next(save.stamina);
-        this.strength$.next(save.strength);
-        this.spellPower$.next(save.spellPower);
+        this.physicalDamage.set(save.physicalDamage);
+        this.spellDamage.set(save.spellDamage);
+        this.stamina.set(save.stamina);
+        this.strength.set(save.strength);
+        this.spellPower.set(save.spellPower);
         this.baseHealth = save.baseHealth;
-        this.baseDamage = save.baseStrength;
+        this.baseDamage = save.baseDamage;
+        this.skillPoints.set(save.skillPoints);
 
         return this;
     }
 
     public exportSave(): string {
         return JSON.stringify({
-            level: this.attributes.level,
-            exp: this.exp,
+            level: this.level.get(),
+            exp: this.exp.get(),
             expReq: this.expReq,
             expPercent: this.expPercent,
-            currentHealth: this.attributes.currentHealth,
-            maxHealth: this.attributes.maxHealth,
+            currentHealth: this.currentHealth.get(),
+            maxHealth: this.maxHealth.get(),
             healthPercent: this.healthPercent,
-            currentMana: this.attributes.currentMana,
-            maxMana: this.attributes.maxMana,
+            currentMana: this.currentMana.get(),
+            maxMana: this.maxMana.get(),
             manaPercent: this.manaPercent,
-            damage: this.attributes.physicalDamage,
-            stamina: this.attributes.stamina,
-            strength: this.attributes.strength,
-            spellPower: this.attributes.spellPower,
+            physicalDamage: this.physicalDamage.get(),
+            spellDamage: this.spellDamage.get(),
+            stamina: this.stamina.get(),
+            strength: this.strength.get(),
+            spellPower: this.spellPower.get(),
             baseHealth: this.baseHealth,
-            baseDamage: this.baseDamage
+            baseDamage: this.baseDamage,
+            skillPoints: this.skillPoints.get()
         });
     }
 

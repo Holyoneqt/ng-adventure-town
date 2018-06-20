@@ -14,6 +14,10 @@ export class SpellService {
         return this.spells;
     }
 
+    public getWhere(func: (spell: Spell) => boolean): Spell[] {
+        return this.spells.filter(func);
+    }
+
     public get(spell: Spells): Spell {
         return this.spells.find(s => s.name === spell);
     }

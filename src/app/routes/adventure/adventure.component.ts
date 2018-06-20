@@ -7,6 +7,7 @@ import { Champion } from './../../game/models/entities/champion.model';
 import { Spells } from './../../game/models/spells/spells.enum';
 import { DataService } from './../../game/services/data.service';
 import { SpellService } from './../../game/services/spell.service';
+import { Spell } from '../../game/models/spells/spell.model';
 
   
 @Component({
@@ -19,6 +20,8 @@ export class AdventureComponent implements OnInit, OnDestroy {
   public adv: Adventure;
 
   public champ: Champion;
+  public learnedSpells: Spell[];
+
   public enemy: Enemy;
   private enemyInterval: Subscription;
 
@@ -26,7 +29,10 @@ export class AdventureComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.champ = this.dataService.getGame().champion;
+    this.learnedSpells = this.spellService.getWhere(spell => spell.rank > 0);
+
     this.enemyInterval = new Subscription();
+    console.log(this);
   }
 
   ngOnDestroy() {
@@ -47,19 +53,15 @@ export class AdventureComponent implements OnInit, OnDestroy {
   }
 
   public attack(): void {
-    this.enemy.takeDamage(this.champ.attributes.physicalDamage);
+    this.enemy.takeDamage(this.champ.physicalDamage.get());
   }
 
-  public heal(): void {
-    this.champ.castSpell(this.spellService.get(Spells.Heal));
-  }
-
-  public fireSpell(): void {
-    this.champ.castSpell(this.spellService.get(Spells.Fire), this.enemy);
+  public castSpell(spell: Spell): void {
+    this.champ.castSpell(spell, this.enemy);
   }
 
   public enemyTurn(): void {
-    this.champ.takeDamage(this.enemy.attributes.physicalDamage);
+    this.champ.takeDamage(this.enemy.physicalDamage.get());
   }
 
   private setEnemyIntervals(): void {

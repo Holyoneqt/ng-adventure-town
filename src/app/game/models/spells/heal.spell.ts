@@ -15,8 +15,8 @@ export class HealSpell extends Spell {
     }
     
     public cast(caster: Entity, target?: Entity): void {
-        target = (target) ? target : caster; // Check if Target is available, else its a selfcast
-        target.heal(caster.attributes.spellPower * this.spMod);
+        target = caster; // Currently always selfcast
+        target.heal(caster.spellPower.get() * this.spMod);
     }
 
     public getNextSpellRankData(): SpellRankData {
