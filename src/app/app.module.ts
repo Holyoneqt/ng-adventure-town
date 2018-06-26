@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
+import { AdventureService } from './game/services/adventure.service';
 import { BuildingService } from './game/services/building.service';
 import { DataService } from './game/services/data.service';
 import { SpellService } from './game/services/spell.service';
@@ -35,6 +36,7 @@ import { MessageService } from './services/message.service';
   providers: [
     DataService,
     MessageService,
+    AdventureService,
     BuildingService,
     SpellService,
   ],

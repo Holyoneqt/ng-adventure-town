@@ -5,9 +5,13 @@ import { Resource } from '../models/resources.enum';
 import { FireSpell } from '../models/spells/fire.spell';
 import { HealSpell } from '../models/spells/heal.spell';
 import { Spell } from '../models/spells/spell.model';
+import { Adventure } from './../models/adventures/adventure.model';
+import { Adventures } from './../models/adventures/adventures.enum';
 import { Building } from './../models/building.model';
 import { Mine } from './../models/buildings/mine.model';
 import { Game } from './../models/game.model';
+import { SiphonSpell } from './../models/spells/siphon.spell';
+import { AdventureService } from './adventure.service';
 import { BuildingService } from './building.service';
 import { SpellService } from './spell.service';
 
@@ -19,7 +23,7 @@ export class DataService {
     private readonly spellsKey: string = 'spells';
     private game: Game;
 
-    constructor(private buildingService: BuildingService, private spellService: SpellService) {
+    constructor(private adventureService: AdventureService, private buildingService: BuildingService, private spellService: SpellService) {
     }
 
     public getGame(): Game {
@@ -42,8 +46,19 @@ export class DataService {
             this.initializeLoadedGame(JSON.parse(localGame));
         }
 
+        this.loadAdventures();
         this.loadBuildings();
         this.loadSpells();
+    }
+
+    private loadAdventures(): void {
+        const adventures: Adventure[] = [];
+        adventures.push(new Adventure(Adventures.Plains, 'An open Field with loads of Enemies.', 1, 5, 5));
+        adventures.push(new Adventure(Adventures.Forest, 'A thick Forest. Very dangerous.', 4, 10, 5));
+        adventures.push(new Adventure(Adventures.Cave, 'A dark and scary Cave.', 10, 18, 5));
+        adventures.push(new Adventure(Adventures.Castle, 'Home to the Emperor in the past, now there are only Monsters inside.', 20, 30, 5));
+        
+        this.adventureService.import(adventures);
     }
 
     private loadBuildings(): void {
@@ -71,6 +86,7 @@ export class DataService {
         const spells: Spell[] = [];
         spells.push(new HealSpell(this.game));
         spells.push(new FireSpell(this.game));   
+        spells.push(new SiphonSpell(this.game));
 
         this.spellService.import(spells, spellsSave);
     }
@@ -84,8 +100,6 @@ export class DataService {
 
     private initializeLoadedGame(localStorageValue: any) {
         console.log(localStorageValue);
-        console.log(localStorageValue.champion);
-        console.log(this.game.champion);
         this.game.importSave(localStorageValue);
     }
 

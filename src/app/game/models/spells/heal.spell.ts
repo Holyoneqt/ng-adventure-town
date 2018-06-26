@@ -22,7 +22,6 @@ export class HealSpell extends Spell {
 
     public getNextSpellRankData(): SpellRankData {
         const data = healRanks[this.rank + 1]; 
-        this.description = `Heals you for ${data.spMod * this.game.champion.spellPower.get()} Healthpoints. (Cost: ${data.manaCost} Mana)`;
         return data;
     }
 
@@ -31,6 +30,7 @@ export class HealSpell extends Spell {
         this.rank = rankData.rank;
         this.manaCost = rankData.manaCost;
         this.spMod = rankData.spMod;
+        this.description = `Heals you for ${this.spMod * this.game.champion.spellPower.get()} Healthpoints. (Cost: ${this.manaCost} Mana)`;
     }
 
 }

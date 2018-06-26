@@ -1,5 +1,10 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
+.center {
+    display: block;
+    margin: 0 auto;
+}
+
 .full-width {
     width: 100%;
 }
