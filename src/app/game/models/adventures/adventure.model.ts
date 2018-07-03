@@ -8,39 +8,29 @@ export class Adventure {
     public levelMin: number;
     public levelMax: number;
 
-    public waves: number;
-    public currentWave: number;
-
-    public enemies: Enemy[];
-
-    constructor(name: string, description: string, lvlMin: number, lvlMax: number, waves: number) {
+    constructor(name: string, description: string, lvlMin: number, lvlMax: number) {
         this.name = name;
         this.description = description;
         this.levelMin = lvlMin;
         this.levelMax = lvlMax;        
-        this.waves = waves;
-
-        this.currentWave = 1;
-        this.enemies = [];
     }
 
+    /** @deprecated */
     public start(): void {
-        this.currentWave = 1;
-        for (let i = 0; i < this.waves; i++) {
-            this.enemies.push(new Enemy(this.levelMin, this.levelMax));
-        }
+        // TODO: Currently obsolete
     }
 
+    /** @deprecated */
     public reset(): void {
-      this.enemies = [];
     }
 
-    public getCurrentEnemy(): Enemy {
-        return this.enemies[this.currentWave - 1];
+    public getNextEnemy(): Enemy {
+        return new Enemy(this.levelMin, this.levelMax);
     }
 
+    /** @deprecated */
     public isLastWave(): boolean {
-        return this.currentWave >= this.waves;
+        return false;
     }
 
 }

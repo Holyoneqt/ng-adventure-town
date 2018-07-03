@@ -53,10 +53,11 @@ export class DataService {
 
     private loadAdventures(): void {
         const adventures: Adventure[] = [];
-        adventures.push(new Adventure(Adventures.Plains, 'An open Field with loads of Enemies.', 1, 5, 5));
-        adventures.push(new Adventure(Adventures.Forest, 'A thick Forest. Very dangerous.', 4, 10, 5));
-        adventures.push(new Adventure(Adventures.Cave, 'A dark and scary Cave.', 10, 18, 5));
-        adventures.push(new Adventure(Adventures.Castle, 'Home to the Emperor in the past, now there are only Monsters inside.', 20, 30, 5));
+        adventures.push(new Adventure(Adventures.TestAdventure, 'for testing. only monster with level 1', 1, 1));
+        adventures.push(new Adventure(Adventures.Plains, 'An open Field with loads of Enemies.', 1, 5));
+        adventures.push(new Adventure(Adventures.Forest, 'A thick Forest. Very dangerous.', 4, 10));
+        adventures.push(new Adventure(Adventures.Cave, 'A dark and scary Cave.', 10, 18));
+        adventures.push(new Adventure(Adventures.Castle, 'Home to the Emperor in the past, now there are only Monsters inside.', 20, 30));
         
         this.adventureService.import(adventures);
     }

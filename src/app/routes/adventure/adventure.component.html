@@ -1,4 +1,4 @@
-<mat-grid-list *ngIf="!currentAdventure" cols="2" rowHeight="300px">
+<mat-grid-list *ngIf="!currentAdventure" cols="3" rowHeight="200px">
   <mat-grid-tile *ngFor="let adv of allAdventures">
     <mat-card class="full-width" style="border: 4px solid #f2f2f2">
       <mat-card-header>
@@ -7,7 +7,6 @@
       </mat-card-header>
       <mat-card-content>
           <p mat-line>Level {{ adv.levelMin }}-{{ adv.levelMax}}</p>
-          <p mat-line>{{ adv.waves }} Waves</p>
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button (click)="start(adv)" color="accent" class="full-width">Start</button>
@@ -16,13 +15,9 @@
   </mat-grid-tile>
 </mat-grid-list>
 
-<mat-toolbar *ngIf="adventureFinished" class="full-width background-success small-margin">
-  Adventure Finished!
-</mat-toolbar>
-<button *ngIf="adventureFinished" mat-raised-button (click)="takeLoot()" color="accent" class="full-width">Take Loot</button>
+<div *ngIf="currentAdventure && !champ.isDead()">
 
-<div *ngIf="currentAdventure && !adventureFinished && !champ.isDead()">
-  <mat-slider class="full-width" disabled="true" [max]="currentAdventure.waves" min="1" step="1" [(ngModel)]="currentAdventure.currentWave"></mat-slider>
+  <button mat-icon-button (click)="backToOverview()"><mat-icon>arrow_back</mat-icon></button>
 
   <mat-list class="full-width">
     <mat-list-item>
@@ -45,15 +40,21 @@
   </mat-list>
 
   <div *ngIf="!enemy.isDead()" class="button-row-center">
-    <button mat-fab color="accent" (click)="attack()">
-      <mat-icon>gavel</mat-icon>
-    </button>
-    <button *ngFor="let spell of learnedSpells" mat-fab [color]="spell.color" (click)="castSpell(spell)">
-      <mat-icon>{{spell.icon}}</mat-icon>
-    </button>
+    <div>
+      <button id="spell_1" mat-fab color="accent" (click)="attack()">
+        <mat-icon>gavel</mat-icon>
+      </button>
+      <p class="spell-key-number">1</p>
+    </div>
+    <div *ngFor="let spellData of learnedSpells">
+      <button [attr.id]="'spell_' + spellData.keyId" mat-fab [color]="spellData.spell.color" (click)="castSpell(spellData.spell)">
+        <mat-icon>{{spellData.spell.icon}}</mat-icon>
+      </button>
+      <p class="spell-key-number">{{ spellData.keyId }}</p>
+    </div>
   </div>
 
-  <button *ngIf="enemy.isDead() && !adventureFinished" mat-raised-button (click)="nextWave()" color="accent" class="full-width">Next Wave</button>
+  <button *ngIf="enemyDead" mat-raised-button (click)="nextWave()" color="accent" class="full-width">Next Enemy</button>
 
 </div>
 

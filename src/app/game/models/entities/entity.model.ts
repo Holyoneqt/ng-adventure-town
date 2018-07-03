@@ -56,7 +56,7 @@ export class Entity {
     }
 
     protected onLevelChange(changeVal: number): void {
-        this.maxMana.set(EntityConstants.ManaValues[changeVal - 1]);
+        this.maxMana.set(EntityConstants.BaseMana + changeVal);
     }
 
     protected onStaminaChange(changeVal: number): void {

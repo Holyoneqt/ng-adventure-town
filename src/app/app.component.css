@@ -10,8 +10,14 @@
     background: #d9534f;
 }
 
+.app-grid-list {
+    height: calc(100% - 64px); /* 100% - height of Header-Bar */
+    padding-bottom: 0 !important;
+}
+
 .app-grid-tile {
-    height: 95%;
+    height: calc(100%); /* 100% - height of Header-Bar */
+    padding-top: 0 !important;
 }
 
 .app-grid-tile-left {
@@ -22,4 +28,5 @@
     position: absolute;
     top: 1%;
     width: 98%;
+    height: auto;
 }

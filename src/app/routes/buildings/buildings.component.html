@@ -5,7 +5,7 @@
     <h3 *ngIf="!building.isMaxLevel()" mat-line>Next Level</h3>
     <h3 *ngIf="building.isMaxLevel()" mat-line>Max. Level</h3>
     <p mat-line *ngFor="let cost of building.getPriceInfo()">{{cost.amount}} {{cost.type}}</p>
-    <button *ngIf="!building.isMaxLevel()" mat-mini-fab (click)="levelUp(building)"><mat-icon>plus_one</mat-icon></button>
+    <button *ngIf="!building.isMaxLevel()" mat-raised-button color="primary" (click)="levelUp(building)">Buy</button>
     <mat-divider></mat-divider>
   </mat-list-item>
 </mat-list>

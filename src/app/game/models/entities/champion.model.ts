@@ -59,7 +59,7 @@ export class Champion extends Entity {
 
     public levelUp(): void {
         this.level.increase(1);
-        this.expReq *= 1.5;
+        this.expReq = Math.round(100 + Math.pow((20 * (this.level.get() - 1)), 1.1));
         this.exp.set(0);
     }
 

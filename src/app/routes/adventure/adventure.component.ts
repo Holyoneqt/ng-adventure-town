@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 import { Adventure } from '../../game/models/adventures/adventure.model';
@@ -17,27 +17,41 @@ import { MessageService, MessageType } from './../../services/message.service';
   templateUrl: './adventure.component.html',
   styleUrls: ['./adventure.component.css']
 })
-export class AdventureComponent implements OnInit, OnDestroy {
+export class AdventureComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public allAdventures: Adventure[];
 
   public currentAdventure: Adventure;
-  public adventureFinished: boolean;
 
   public champ: Champion;
-  public learnedSpells: Spell[];
+  public learnedSpells: {keyId: number, spell: Spell}[];
 
   public enemy: Enemy;
   private enemyInterval: Subscription;
+
+  public globalCooldown: number;
+  private lastPressed: number;
 
   constructor(private dataService: DataService, private messageService: MessageService, private adventureService: AdventureService, private spellService: SpellService) { }
 
   ngOnInit() {
     this.allAdventures = this.adventureService.getAll();
     this.champ = this.dataService.getGame().champion;
-    this.learnedSpells = this.spellService.getWhere(spell => spell.rank > 0);
+    this.learnedSpells = [];
 
+    let spellKeyId = 2; // Starts at 2 because Key '1' is reserved for Attack
+    this.spellService.getWhere(spell => spell.rank > 0).forEach(s => {
+      this.learnedSpells.push({ keyId: spellKeyId, spell: s });
+      spellKeyId++;
+    });
+
+    this.globalCooldown = 250;
+    this.lastPressed = 0;
     this.enemyInterval = new Subscription();
+  }
+
+  ngAfterViewInit() {
+    this.initKeybinds();
   }
 
   ngOnDestroy() {
@@ -46,15 +60,13 @@ export class AdventureComponent implements OnInit, OnDestroy {
 
   public start(adv: Adventure): void {
     this.currentAdventure = adv;
-    this.adventureFinished = false;
     this.currentAdventure.start();
-    this.enemy = this.currentAdventure.getCurrentEnemy();
+    this.enemy = this.currentAdventure.getNextEnemy();
     this.setEnemyIntervals();
   }
 
-  public nextWave(): void {
-    this.currentAdventure.currentWave++;
-    this.enemy = this.currentAdventure.getCurrentEnemy();
+  public nextEnemy(): void {
+    this.enemy = this.currentAdventure.getNextEnemy();
     this.setEnemyIntervals();
   }
 
@@ -63,7 +75,6 @@ export class AdventureComponent implements OnInit, OnDestroy {
     this.messageService.writeMessage(MessageType.Info, 'You looted:\n50 Gold, 20 Wood, 10 Stone, 1 Small Book and a large Coke Zero');
     this.currentAdventure.reset();
     this.currentAdventure = undefined;
-    this.adventureFinished = false;
   }
 
   public attack(): void {
@@ -72,6 +83,11 @@ export class AdventureComponent implements OnInit, OnDestroy {
 
   public castSpell(spell: Spell): void {
     this.champ.castSpell(spell, this.enemy);
+  }
+
+  public backToOverview(): void {
+    this.currentAdventure = undefined;
+    this.enemyInterval.unsubscribe();
   }
 
   public enemyTurn(): void {
@@ -90,13 +106,25 @@ export class AdventureComponent implements OnInit, OnDestroy {
 
     this.enemy.onDeath.subscribe(() => {
       this.champ.gainExp(this.enemy.expReward);
-      if (this.currentAdventure.isLastWave()) {
-        this.adventureFinished = true;
-      }
+      this.enemy = this.currentAdventure.getNextEnemy();
       this.enemyInterval.unsubscribe();
-      champDeathSub.unsubscribe();
+      this.setEnemyIntervals();
+      // champDeathSub.unsubscribe();
     });
 
+  }
+
+  private initKeybinds(): void {
+    window.onkeypress = (e) => {
+      const now = Date.now();
+      if (now - this.lastPressed > this.globalCooldown) {
+        this.lastPressed = now;
+        const button = document.getElementById(`spell_${e.key}`);
+        if (button) {
+          button.click();
+        }
+      }
+    };
   }
 
 }
