@@ -140,7 +140,7 @@ export class Entity {
         return this.currentMana.get() >= amount;
     }
 
-    protected isDead(): boolean {
+    public isDead(): boolean {
         return this.currentHealth.get() <= 0;
     }
 
