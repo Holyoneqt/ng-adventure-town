@@ -1,7 +1,7 @@
 import { MessageService, MessageType } from './../../services/message.service';
 import { Component, OnInit } from '@angular/core';
 
-import { Building } from './../../game/models/building.model';
+import { Building } from '../../game/models/buildings/building.model';
 import { BuildingService } from './../../game/services/building.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class BuildingsComponent implements OnInit {
   constructor(private buildingService: BuildingService, private messageService: MessageService) { }
 
   ngOnInit() {
-    this.buildings = this.buildingService.getAll();
+    this.buildings = this.buildingService.getWhere(b => b.isUnlocked());
   }
 
   levelUp(building: Building): void {

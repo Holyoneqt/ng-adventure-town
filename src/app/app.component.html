@@ -64,15 +64,15 @@
     <div class="full-width" style="position: absolute; bottom: 1%;">
       <mat-list class="full-width">
         <mat-list-item>
-          <p mat-line>Gold: {{game.get(resourceGold)}}</p>
+          <p mat-line>Gold: {{ game.get(resourceGold) }}</p>
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item>
-          <p mat-line>Wood: {{game.get(resourceWood)}}</p>
+          <p mat-line>Wood: {{ game.get(resourceWood) }} / {{ game.woodMax.get() }}</p>
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item>
-          <p mat-line>Stone: {{game.get(resourceStone)}}</p>
+          <p mat-line>Stone: {{ game.get(resourceStone) }} / {{ game.stoneMax.get() }}</p>
         </mat-list-item>
       </mat-list>
     </div>

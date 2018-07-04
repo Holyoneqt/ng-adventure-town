@@ -1,9 +1,9 @@
-import { Price } from './interfaces.model';
+import { Price } from './../interfaces.model';
 import { interval } from 'rxjs';
 
-import { TickDuration } from '../models/constants/constants';
-import { Game } from './game.model';
-import { Resource } from './resources.enum';
+import { TickDuration } from '../../models/constants/constants';
+import { Game } from './../game.model';
+import { Resource } from './../resources.enum';
 
 
 export class Building {
@@ -19,6 +19,8 @@ export class Building {
     protected priceType: Resource;
     protected prices: Price[][];
 
+    protected unlocked: boolean;
+
     constructor(game: Game, name: string, desc: string, maxLevel: number) {
         this.game = game;
         this.name = name;
@@ -28,6 +30,7 @@ export class Building {
         this.maxLevel = maxLevel;
 
         this.prices = [];
+        this.unlocked = false;
 
         interval(TickDuration).subscribe(() => this.onTick());
     }
@@ -43,6 +46,7 @@ export class Building {
             this.game.remove(this.getPriceInfo()[i].type, this.getPriceInfo()[i].amount);
         }
         this.level++;
+        this.onLevelUp();
         return true;
     }
 
@@ -54,6 +58,11 @@ export class Building {
         return this.level >= this.maxLevel;
     }
 
+    public isUnlocked(): boolean {
+        return this.unlocked;
+    }
+
     public onTick(): void { }
+    public onLevelUp(): void { }
 
 }

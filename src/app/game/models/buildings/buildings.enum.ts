@@ -1,6 +1,7 @@
 export enum Buildings {
 
     Lumbermill = 'Lumbermill',
-    Mine = 'Mine'
+    Mine = 'Mine',
+    Warehouse = 'Warehouse'
 
 }

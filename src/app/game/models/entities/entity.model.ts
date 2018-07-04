@@ -2,8 +2,8 @@ import { Subject } from 'rxjs';
 
 import { EntityConstants } from './../constants/entities.constants';
 import { Spell } from './../spells/spell.model';
-import { Attribute } from './attributes/attribute.model';
-import { NumberAttribute } from './attributes/number-attribute.model';
+import { Attribute } from '../attributes/attribute.model';
+import { NumberAttribute } from '../attributes/number-attribute.model';
 import { Stat } from './stats.enum';
 
 export class Entity {

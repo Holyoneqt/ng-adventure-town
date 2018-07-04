@@ -1,4 +1,4 @@
-import { NumberAttribute } from './attributes/number-attribute.model';
+import { NumberAttribute } from '../attributes/number-attribute.model';
 import { interval, BehaviorSubject } from 'rxjs';
 
 import { Entity } from './entity.model';
@@ -59,6 +59,8 @@ export class Champion extends Entity {
 
     public levelUp(): void {
         this.level.increase(1);
+        this.stamina.increase(1);
+        this.strength.increase(1);
         this.expReq = Math.round(100 + Math.pow((20 * (this.level.get() - 1)), 1.1));
         this.exp.set(0);
     }

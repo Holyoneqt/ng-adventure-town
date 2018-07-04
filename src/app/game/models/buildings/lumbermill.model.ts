@@ -1,5 +1,5 @@
 import { Game } from './../game.model';
-import { Building } from './../building.model';
+import { Building } from './building.model';
 import { Buildings } from './buildings.enum';
 import { Resource } from '../resources.enum';
 import { LumbermillConstants } from '../constants/buildings.constants';
@@ -9,6 +9,7 @@ export class Lumbermill extends Building {
     constructor(game: Game) {
         super(game, Buildings.Lumbermill, 'Produces Wood', 10);
         this.prices = LumbermillConstants.Prices;
+        this.unlocked = true;
     }
 
     public onTick(): void {

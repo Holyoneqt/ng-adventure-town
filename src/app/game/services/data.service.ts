@@ -1,3 +1,4 @@
+import { Warehouse } from './../models/buildings/warehouse.model';
 import { Injectable } from '@angular/core';
 
 import { Lumbermill } from '../models/buildings/lumbermill.model';
@@ -7,7 +8,7 @@ import { HealSpell } from '../models/spells/heal.spell';
 import { Spell } from '../models/spells/spell.model';
 import { Adventure } from './../models/adventures/adventure.model';
 import { Adventures } from './../models/adventures/adventures.enum';
-import { Building } from './../models/building.model';
+import { Building } from '../models/buildings/building.model';
 import { Mine } from './../models/buildings/mine.model';
 import { Game } from './../models/game.model';
 import { SiphonSpell } from './../models/spells/siphon.spell';
@@ -69,6 +70,7 @@ export class DataService {
         const buildings: Building[] = [];
         buildings.push(new Lumbermill(this.game));
         buildings.push(new Mine(this.game));
+        buildings.push(new Warehouse(this.game));
         
         this.buildingService.import(buildings, buildingsSave);
     }
