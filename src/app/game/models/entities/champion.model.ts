@@ -1,13 +1,18 @@
-import { NumberAttribute } from '../attributes/number-attribute.model';
+import { ItemStacker } from './../../util/item-stacker';
+import { ArrayAttribute } from './../attributes/array.attribute';
+import { NumberAttribute } from '../attributes/number.attribute';
 import { interval, BehaviorSubject } from 'rxjs';
 
 import { Entity } from './entity.model';
+import { StackedItem } from '../interfaces.model';
 
 export class Champion extends Entity {
 
     public exp: NumberAttribute;
     public expReq: number;
     public expPercent: number;
+
+    public items: ArrayAttribute<StackedItem>;
 
     public skillPoints: NumberAttribute;
 
@@ -24,6 +29,8 @@ export class Champion extends Entity {
         this.exp = new NumberAttribute(0);
         this.exp.subscribe(e => this.onExpChange(e));
         this.expReq = 100;
+
+        this.items = new ArrayAttribute([]);
 
         this.baseHealth = 50;
         this.baseDamage = 2;
@@ -65,6 +72,13 @@ export class Champion extends Entity {
         this.exp.set(0);
     }
 
+    public addItems(stack: StackedItem[]): void {
+        const itemStacker = new ItemStacker();
+        itemStacker.items.set(this.items.get());
+        itemStacker.addItems(stack);
+        this.items.set(itemStacker.items.get());
+    }
+
     public importSave(save: any): Champion {
         save = JSON.parse(save);
         console.log(save);
@@ -86,6 +100,7 @@ export class Champion extends Entity {
         this.baseHealth = save.baseHealth;
         this.baseDamage = save.baseDamage;
         this.skillPoints.set(save.skillPoints);
+        // items do no get importet here, because they need to get parsed first...
 
         return this;
     }
@@ -109,7 +124,8 @@ export class Champion extends Entity {
             spellPower: this.spellPower.get(),
             baseHealth: this.baseHealth,
             baseDamage: this.baseDamage,
-            skillPoints: this.skillPoints.get()
+            skillPoints: this.skillPoints.get(),
+            items: this.items.get().map(i =>  ({ item: i.item.id, amount: i.amount })),
         });
     }
 

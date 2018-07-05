@@ -12,7 +12,7 @@ export class Mine extends Building {
             [ { type: Resource.Gold, amount: 15 }, { type: Resource.Gold, amount: 10 } ],
             [ { type: Resource.Gold, amount: 25 }, { type: Resource.Gold, amount: 30 } ],
         ];
-        this.unlocked = true;
+        this.unlocked.set(true);
     }
 
     public onTick(): void {

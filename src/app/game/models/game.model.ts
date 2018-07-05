@@ -1,6 +1,6 @@
 import { Resource } from './resources.enum';
 import { Champion } from './entities/champion.model';
-import { NumberAttribute } from './attributes/number-attribute.model';
+import { NumberAttribute } from './attributes/number.attribute';
 
 export class Game {
 

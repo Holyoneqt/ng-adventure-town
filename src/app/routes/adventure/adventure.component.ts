@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
+import { ItemService } from './../../game/services/items.service';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 import { Adventure } from '../../game/models/adventures/adventure.model';
@@ -10,6 +11,7 @@ import { AdventureService } from './../../game/services/adventure.service';
 import { DataService } from './../../game/services/data.service';
 import { SpellService } from './../../game/services/spell.service';
 import { MessageService, MessageType } from './../../services/message.service';
+import { ItemType } from '../../game/models/items/item-type.enum';
 
 
 @Component({
@@ -32,7 +34,7 @@ export class AdventureComponent implements OnInit, AfterViewInit, OnDestroy {
   public globalCooldown: number;
   private lastPressed: number;
 
-  constructor(private dataService: DataService, private messageService: MessageService, private adventureService: AdventureService, private spellService: SpellService) { }
+  constructor(private dataService: DataService, private messageService: MessageService, private itemService: ItemService, private adventureService: AdventureService, private spellService: SpellService) { }
 
   ngOnInit() {
     this.allAdventures = this.adventureService.getAll();
@@ -70,11 +72,13 @@ export class AdventureComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setEnemyIntervals();
   }
 
-  public takeLoot(): void {
-    this.dataService.getGame().add(Resource.Gold, 50);
-    this.messageService.writeMessage(MessageType.Info, 'You looted:\n50 Gold, 20 Wood, 10 Stone, 1 Small Book and a large Coke Zero');
-    this.currentAdventure.reset();
-    this.currentAdventure = undefined;
+  public takeLoot(enemy: Enemy): void {
+    this.dataService.getGame().add(Resource.Gold, enemy.goldReward);
+    const loot = this.itemService.getRandom(ItemType.Junk, 3);
+    this.champ.addItems(loot);
+    let msg = `You looted: ${enemy.goldReward} Gold.`;
+    loot.forEach(i => msg += ` ${i.item.name.get()} x${i.amount} |`);
+    this.messageService.writeMessage(MessageType.Info, msg);
   }
 
   public attack(): void {
@@ -106,6 +110,7 @@ export class AdventureComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.enemy.onDeath.subscribe(() => {
       this.champ.gainExp(this.enemy.expReward);
+      this.takeLoot(this.enemy);
       this.enemy = this.currentAdventure.getNextEnemy();
       this.enemyInterval.unsubscribe();
       this.setEnemyIntervals();
@@ -119,7 +124,7 @@ export class AdventureComponent implements OnInit, AfterViewInit, OnDestroy {
       const now = Date.now();
       if (now - this.lastPressed > this.globalCooldown) {
         this.lastPressed = now;
-        const button = document.getElementById(`spell_${e.key}`);
+        const button = document.getElementById(`keybind_${e.key}`);
         if (button) {
           button.click();
         }

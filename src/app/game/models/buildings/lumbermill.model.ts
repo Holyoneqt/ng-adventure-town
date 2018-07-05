@@ -9,7 +9,7 @@ export class Lumbermill extends Building {
     constructor(game: Game) {
         super(game, Buildings.Lumbermill, 'Produces Wood', 10);
         this.prices = LumbermillConstants.Prices;
-        this.unlocked = true;
+        this.unlocked.set(true);
     }
 
     public onTick(): void {

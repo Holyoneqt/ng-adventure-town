@@ -30,3 +30,11 @@
     width: 98%;
     height: auto;
 }
+
+.item-list {
+    position: absolute;
+    top: 40%;
+    max-height: 25%;
+    border-top: 1px solid #888;
+    border-bottom: 1px solid #888;
+}

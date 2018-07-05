@@ -4,6 +4,7 @@ import { Entity } from './entity.model';
 export class Enemy extends Entity {
 
     public expReward: number;
+    public goldReward: number;
 
     constructor(minLvl: number, maxLvl: number) {
         super();
@@ -26,7 +27,7 @@ export class Enemy extends Entity {
         this.currentHealth.set(this.maxHealth.get());
 
         this.expReward = Math.round(10 + Math.pow((this.level.get() * 1.5), 1.25));
+        this.goldReward = Math.floor(this.level.get() + (Math.round(Math.random() * this.level.get())));
     }
-
 
 }

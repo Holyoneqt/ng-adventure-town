@@ -16,7 +16,10 @@ export class BuildingsComponent implements OnInit {
   constructor(private buildingService: BuildingService, private messageService: MessageService) { }
 
   ngOnInit() {
-    this.buildings = this.buildingService.getWhere(b => b.isUnlocked());
+    this.buildings = this.buildingService.getWhere(b => b.unlocked.get() === true);
+    this.buildingService.getAll().forEach(b => {
+      b.unlocked.subscribe(changeVal => this.buildings = this.buildingService.getWhere(b => b.unlocked.get() === true))
+    });
   }
 
   levelUp(building: Building): void {

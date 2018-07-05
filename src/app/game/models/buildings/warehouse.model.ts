@@ -10,10 +10,9 @@ export class Warehouse extends Building {
         super(game, Buildings.Warehouse, 'Increases the amount of Resources you can store.', 20);
         this.prices = LumbermillConstants.Prices;
 
-        const unlockSub = this.game.wood.subscribe(newVal => {
+        this.game.wood.subscribe(newVal => {
             if (newVal >= 2) {
-                this.unlocked = true;
-                unlockSub.unsubscribe();
+                this.unlocked.set(true);
             }
         });
     }

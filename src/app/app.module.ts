@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AdventureService } from './game/services/adventure.service';
 import { BuildingService } from './game/services/building.service';
 import { DataService } from './game/services/data.service';
+import { ItemService } from './game/services/items.service';
 import { SpellService } from './game/services/spell.service';
 import { AppRoutingModule } from './modules/app-router.module';
 import { MaterialModule } from './modules/material.module';
@@ -36,6 +37,7 @@ import { MessageService } from './services/message.service';
   providers: [
     DataService,
     MessageService,
+    ItemService,
     AdventureService,
     BuildingService,
     SpellService,

@@ -61,6 +61,15 @@
       </mat-list>
     </div>
 
+    <h4 style="position: absolute; top: 35%;">Items</h4>
+    <div class="full-width scrollable item-list">
+      <mat-list class="full-width">
+        <mat-list-item *ngFor="let itemStack of champ.items.get()" style="height: 32px">
+          {{ itemStack.item.name.get() }} {{ itemStack.amount }}x
+        </mat-list-item>
+      </mat-list>
+    </div>
+
     <div class="full-width" style="position: absolute; bottom: 1%;">
       <mat-list class="full-width">
         <mat-list-item>
