@@ -1,5 +1,5 @@
-import { Price } from './../interfaces.model';
-import { Resource } from './../resources.enum';
+import { Price } from '../interfaces.model';
+import { Resource } from '../resources.enum';
 
 export class LumbermillConstants {
 

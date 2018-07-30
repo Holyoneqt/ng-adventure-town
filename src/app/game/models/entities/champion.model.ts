@@ -1,5 +1,5 @@
-import { ItemStacker } from './../../util/item-stacker';
-import { ArrayAttribute } from './../attributes/array.attribute';
+import { ItemStacker } from '../../util/item-stacker';
+import { ArrayAttribute } from '../attributes/array.attribute';
 import { NumberAttribute } from '../attributes/number.attribute';
 import { interval, BehaviorSubject } from 'rxjs';
 
@@ -80,7 +80,6 @@ export class Champion extends Entity {
     }
 
     public importSave(save: any): Champion {
-        save = JSON.parse(save);
         console.log(save);
         this.level.set(save.level);
         this.exp.set(save.exp);
@@ -105,8 +104,8 @@ export class Champion extends Entity {
         return this;
     }
 
-    public exportSave(): string {
-        return JSON.stringify({
+    public exportSave(): any {
+        return ({
             level: this.level.get(),
             exp: this.exp.get(),
             expReq: this.expReq,

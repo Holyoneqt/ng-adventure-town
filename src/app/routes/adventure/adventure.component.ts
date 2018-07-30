@@ -1,16 +1,16 @@
-import { ItemService } from './../../game/services/items.service';
+import { ItemService } from '../../game/services/items.service';
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 import { Adventure } from '../../game/models/adventures/adventure.model';
 import { Enemy } from '../../game/models/entities/enemy.model';
 import { Spell } from '../../game/models/spells/spell.model';
-import { Champion } from './../../game/models/entities/champion.model';
-import { Resource } from './../../game/models/resources.enum';
-import { AdventureService } from './../../game/services/adventure.service';
-import { DataService } from './../../game/services/data.service';
-import { SpellService } from './../../game/services/spell.service';
-import { MessageService, MessageType } from './../../services/message.service';
+import { Champion } from '../../game/models/entities/champion.model';
+import { Resource } from '../../game/models/resources.enum';
+import { AdventureService } from '../../game/services/adventure.service';
+import { DataService } from '../../game/services/data.service';
+import { SpellService } from '../../game/services/spell.service';
+import { MessageService, MessageType } from '../../services/message.service';
 import { ItemType } from '../../game/models/items/item-type.enum';
 
 
@@ -79,10 +79,6 @@ export class AdventureComponent implements OnInit, AfterViewInit, OnDestroy {
     let msg = `You looted: ${enemy.goldReward} Gold.`;
     loot.forEach(i => msg += ` ${i.item.name.get()} x${i.amount} |`);
     this.messageService.writeMessage(MessageType.Info, msg);
-  }
-
-  public attack(): void {
-    this.enemy.takeDamage(this.champ.physicalDamage.get());
   }
 
   public castSpell(spell: Spell): void {

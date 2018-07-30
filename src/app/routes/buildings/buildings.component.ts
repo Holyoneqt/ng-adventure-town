@@ -1,8 +1,8 @@
-import { MessageService, MessageType } from './../../services/message.service';
+import { MessageService, MessageType } from '../../services/message.service';
 import { Component, OnInit } from '@angular/core';
 
 import { Building } from '../../game/models/buildings/building.model';
-import { BuildingService } from './../../game/services/building.service';
+import { BuildingService } from '../../game/services/building.service';
 
 @Component({
   selector: 'app-buildings',

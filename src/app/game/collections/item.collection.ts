@@ -1,5 +1,5 @@
-import { ItemType } from './../models/items/item-type.enum';
-import { Item } from './../models/items/item.model';
+import { ItemType } from '../models/items/item-type.enum';
+import { Item } from '../models/items/item.model';
 
 export const JunkItemCollection: Item[] = [
     new Item(10001, 'Used Bandage', '', 1, ItemType.Crafting),
@@ -26,4 +26,8 @@ export const GemItemCollection: Item[] = [
     new Item(20005, 'Rose', 'A pink Gemstone', 30, ItemType.Gem),
     new Item(20007, 'Ruby', 'A red Gemstone', 30, ItemType.Gem),
     new Item(20008, 'Lilac', 'A purple Gemstone', 30, ItemType.Gem),
+];
+
+export const CraftingItemCollection: Item[] = [
+    new Item(30001, 'Iron Ore', 'Used to craft Weapons and Armor', 5, ItemType.Crafting),
 ];

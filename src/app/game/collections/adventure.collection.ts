@@ -1,4 +1,4 @@
-import { Adventures } from './../models/adventures/adventures.enum';
+import { Adventures } from '../models/adventures/adventures.enum';
 import { Adventure } from '../models/adventures/adventure.model';
 
 export const AdventureCollection: Adventure[] = [

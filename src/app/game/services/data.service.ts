@@ -4,16 +4,18 @@ import { AdventureCollection } from '../collections/adventure.collection';
 import { GemItemCollection, JunkItemCollection } from '../collections/item.collection';
 import { Building } from '../models/buildings/building.model';
 import { Lumbermill } from '../models/buildings/lumbermill.model';
+import { Mine } from '../models/buildings/mine.model';
+import { Warehouse } from '../models/buildings/warehouse.model';
+import { Game } from '../models/game.model';
+import { StackedItem } from '../models/interfaces.model';
 import { Resource } from '../models/resources.enum';
 import { FireSpell } from '../models/spells/fire.spell';
 import { HealSpell } from '../models/spells/heal.spell';
+import { SiphonSpell } from '../models/spells/siphon.spell';
 import { Spell } from '../models/spells/spell.model';
-import { Mine } from './../models/buildings/mine.model';
-import { Warehouse } from './../models/buildings/warehouse.model';
-import { Game } from './../models/game.model';
-import { StackedItem } from './../models/interfaces.model';
-import { SiphonSpell } from './../models/spells/siphon.spell';
-import { ItemStacker } from './../util/item-stacker';
+import { ItemStacker } from '../util/item-stacker';
+import { CraftingItemCollection } from './../collections/item.collection';
+import { Attack } from './../models/spells/attack.spell';
 import { AdventureService } from './adventure.service';
 import { BuildingService } from './building.service';
 import { ItemService } from './items.service';
@@ -51,7 +53,7 @@ export class DataService {
             const parsedGame = JSON.parse(localGame);
             console.log(parsedGame);
             this.initializeLoadedGame(parsedGame);
-            champItems = JSON.parse(parsedGame.champion).items;
+            champItems = parsedGame.champion.items;
         }
 
         this.loadItems();
@@ -62,7 +64,7 @@ export class DataService {
     }
 
     private loadItems(): void {
-        this.itemService.import(JunkItemCollection, GemItemCollection);
+        this.itemService.import(JunkItemCollection, GemItemCollection, CraftingItemCollection);
     }
 
     private initChampItems(champItems: any[]): void {
@@ -103,6 +105,7 @@ export class DataService {
         const spellsSave = spellsLocal !== null ? JSON.parse(spellsLocal) : [];
 
         const spells: Spell[] = [];
+        spells.push(new Attack(this.game));
         spells.push(new HealSpell(this.game));
         spells.push(new FireSpell(this.game));   
         spells.push(new SiphonSpell(this.game));

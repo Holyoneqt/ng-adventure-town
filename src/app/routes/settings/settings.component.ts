@@ -1,8 +1,8 @@
-import { Resource } from './../../game/models/resources.enum';
-import { Game } from './../../game/models/game.model';
+import { Resource } from '../../game/models/resources.enum';
+import { Game } from '../../game/models/game.model';
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from './../../game/services/data.service';
+import { DataService } from '../../game/services/data.service';
 
 @Component({
   selector: 'app-settings',

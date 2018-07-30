@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Spell } from '../../game/models/spells/spell.model';
-import { SpellService } from './../../game/services/spell.service';
-import { MessageService, MessageType } from './../../services/message.service';
+import { SpellService } from '../../game/services/spell.service';
+import { MessageService, MessageType } from '../../services/message.service';
 
 @Component({
   selector: 'app-magic-trainer',

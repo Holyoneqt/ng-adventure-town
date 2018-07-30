@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Spell } from '../models/spells/spell.model';
-import { Spells } from './../models/spells/spells.enum';
+import { Spells } from '../models/spells/spells.enum';
 
 @Injectable()
 export class SpellService {

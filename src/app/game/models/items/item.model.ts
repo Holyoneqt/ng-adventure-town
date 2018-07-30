@@ -1,4 +1,4 @@
-import { Attribute } from './../attributes/attribute.model';
+import { Attribute } from '../attributes/attribute.model';
 import { NumberAttribute } from '../attributes/number.attribute';
 import { ItemType } from './item-type.enum';
 

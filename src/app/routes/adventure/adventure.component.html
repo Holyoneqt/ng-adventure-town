@@ -40,12 +40,6 @@
   </mat-list>
 
   <div *ngIf="!enemy.isDead()" class="button-row-center">
-    <div>
-      <button id="keybind_1" mat-fab color="accent" (click)="attack()">
-        <mat-icon>gavel</mat-icon>
-      </button>
-      <p class="spell-key-number">1</p>
-    </div>
     <div *ngFor="let spellData of learnedSpells">
       <button [attr.id]="'keybind_' + spellData.keyId" mat-fab [color]="spellData.spell.color" (click)="castSpell(spellData.spell)">
         <mat-icon>{{spellData.spell.icon}}</mat-icon>

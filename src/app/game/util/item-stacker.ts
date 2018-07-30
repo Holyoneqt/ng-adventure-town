@@ -1,6 +1,6 @@
 import { ArrayAttribute } from '../models/attributes/array.attribute';
 import { StackedItem } from '../models/interfaces.model';
-import { Item } from './../models/items/item.model';
+import { Item } from '../models/items/item.model';
 
 export class ItemStacker {
 

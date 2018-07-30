@@ -1,6 +1,6 @@
-import { Entity } from './../entities/entity.model';
-import { Game } from './../game.model';
-import { SpellRankData } from './../interfaces.model';
+import { Entity } from '../entities/entity.model';
+import { Game } from '../game.model';
+import { SpellRankData } from '../interfaces.model';
 
 export abstract class Spell {
 

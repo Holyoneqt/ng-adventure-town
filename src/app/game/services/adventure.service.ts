@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Adventure } from './../models/adventures/adventure.model';
-import { Adventures } from './../models/adventures/adventures.enum';
+import { Adventure } from '../models/adventures/adventure.model';
+import { Adventures } from '../models/adventures/adventures.enum';
 
 @Injectable()
 export class AdventureService {

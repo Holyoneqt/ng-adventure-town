@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { StackedItem } from './../models/interfaces.model';
-import { ItemType } from './../models/items/item-type.enum';
-import { Item } from './../models/items/item.model';
-import { ItemStacker } from './../util/item-stacker';
+import { StackedItem } from '../models/interfaces.model';
+import { ItemType } from '../models/items/item-type.enum';
+import { Item } from '../models/items/item.model';
+import { ItemStacker } from '../util/item-stacker';
 
 @Injectable()
 export class ItemService {
@@ -12,6 +12,7 @@ export class ItemService {
 
     private junkItems: Item[];
     private gemItems: Item[];
+    private craftingItems: Item[];
 
     constructor() {}
 
@@ -29,6 +30,7 @@ export class ItemService {
         switch (type) {
             case ItemType.Junk: return this.junkItems;
             case ItemType.Gem: return this.gemItems;
+            case ItemType.Crafting: return this.craftingItems;
             default: return [];
         }
     }
@@ -43,11 +45,12 @@ export class ItemService {
         return stacker.items.get();
     }
 
-    public import(junk: Item[], gems: Item[]): void {
+    public import(junk: Item[], gems: Item[], crafting: Item[]): void {
         this.junkItems = junk;
         this.gemItems = gems;
+        this.craftingItems = crafting;
 
-        this.allItems = [].concat(this.junkItems, this.gemItems);
+        this.allItems = [].concat(this.junkItems, this.gemItems, this.craftingItems);
     }
 
 }

@@ -1,10 +1,10 @@
 import { interval, Subject } from 'rxjs';
 
-import { TickDuration } from '../../models/constants/constants';
-import { Attribute } from './../attributes/attribute.model';
-import { Game } from './../game.model';
-import { Price } from './../interfaces.model';
-import { Resource } from './../resources.enum';
+import { TickDuration } from '../constants/constants';
+import { Attribute } from '../attributes/attribute.model';
+import { Game } from '../game.model';
+import { Price } from '../interfaces.model';
+import { Resource } from '../resources.enum';
 
 
 export class Building {

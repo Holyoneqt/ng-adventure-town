@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../routes/home/home.component';
 import { SettingsComponent } from '../routes/settings/settings.component';
 import { MagicTrainerComponent } from '../routes/magic-trainer/magic-trainer.component';
-import { AdventureComponent } from './../routes/adventure/adventure.component';
-import { BuildingsComponent } from './../routes/buildings/buildings.component';
+import { AdventureComponent } from '../routes/adventure/adventure.component';
+import { BuildingsComponent } from '../routes/buildings/buildings.component';
 
 const appRoutes: Routes = [
   {

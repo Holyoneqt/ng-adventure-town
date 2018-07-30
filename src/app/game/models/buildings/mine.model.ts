@@ -1,6 +1,6 @@
 import { Building } from './building.model';
-import { Buildings } from './../buildings/buildings.enum';
-import { Game } from './../game.model';
+import { Buildings } from './buildings.enum';
+import { Game } from '../game.model';
 import { Resource } from '../resources.enum';
 
 export class Mine extends Building {

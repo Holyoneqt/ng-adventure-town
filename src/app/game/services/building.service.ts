@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Building } from './../models/buildings/building.model';
-import { Buildings } from './../models/buildings/buildings.enum';
+import { Building } from '../models/buildings/building.model';
+import { Buildings } from '../models/buildings/buildings.enum';
 
 @Injectable()
 export class BuildingService {

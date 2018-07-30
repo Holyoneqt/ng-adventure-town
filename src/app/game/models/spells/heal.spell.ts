@@ -1,7 +1,7 @@
-import { Entity } from './../entities/entity.model';
-import { Game } from './../game.model';
-import { SpellRankData } from './../interfaces.model';
-import { Resource } from './../resources.enum';
+import { Entity } from '../entities/entity.model';
+import { Game } from '../game.model';
+import { SpellRankData } from '../interfaces.model';
+import { Resource } from '../resources.enum';
 import { Spell } from './spell.model';
 import { Spells } from './spells.enum';
 
