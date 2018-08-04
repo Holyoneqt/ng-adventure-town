@@ -1,6 +1,7 @@
-import { Resource } from './resources.enum';
-import { Champion } from './entities/champion.model';
 import { NumberAttribute } from './attributes/number.attribute';
+import { Champion } from './entities/champion.model';
+import { SaveGame } from './interfaces.model';
+import { Resource } from './resources.enum';
 
 export class Game {
 
@@ -56,19 +57,19 @@ export class Game {
         return this.get(resource) - amount >= 0;
     }
 
-    public importSave(save: any): Game {
-        this.gold.set(save.gold);
-        this.wood.set(save.wood);
-        this.woodMax.set(save.woodMax);
-        this.stone.set(save.stone);
-        this.stoneMax.set(save.stoneMax);
-        this.champion = new Champion().importSave(save.champion);
+    public importSave(save: SaveGame): Game {
+        this.gold.set(save.game.gold);
+        this.wood.set(save.game.wood);
+        this.woodMax.set(save.game.woodMax);
+        this.stone.set(save.game.stone);
+        this.stoneMax.set(save.game.stoneMax);
+        this.champion = new Champion().importSave(save.game.champion);
 
         return this;
     }
 
-    public exportSave(): string {
-        return JSON.stringify({
+    public exportSave(): any {
+        return ({
             gold: this.gold.get(),
             wood: this.wood.get(),
             woodMax: this.woodMax.get(),

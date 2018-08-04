@@ -1,7 +1,7 @@
-import { Resource } from '../../game/models/resources.enum';
-import { Game } from '../../game/models/game.model';
 import { Component, OnInit } from '@angular/core';
 
+import { Game } from '../../game/models/game.model';
+import { Resource } from '../../game/models/resources.enum';
 import { DataService } from '../../game/services/data.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class SettingsComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.game = this.dataService.getGame();
+    this.game = this.dataService.game;
     this.devGoldInput = 0;
     this.devWoodInput = 0;
     this.devStoneInput = 0;

@@ -3,8 +3,9 @@
     <h1 *ngIf="spell.rank > 0" mat-line>{{spell.name}} (Rank {{spell.rank}})</h1>
     <h1 *ngIf="spell.rank <= 0" mat-line>{{spell.name}} (Not learned)</h1>
     <p mat-line *ngIf="spell.rank > 0">{{spell.description}}</p>
-    <i mat-line class="small-margin">Next Rank costs: {{spell.getNextSpellRankData().cost.amount}} {{spell.getNextSpellRankData().cost.type}}</i>
-    <button mat-raised-button (click)="learnSpell(spell)" color="primary">Learn</button>
+    <i mat-line *ngIf="!spell.isMaxLevel()" class="small-margin">Next Rank costs: {{spell.getNextSpellRankData().cost.amount}} {{spell.getNextSpellRankData().cost.type}}</i>
+    <button *ngIf="!spell.isMaxLevel()" mat-raised-button (click)="learnSpell(spell)" color="primary">Learn</button>
+    <button *ngIf="spell.isMaxLevel()" mat-raised-button disabled="disabled" color="primary">Max. Level</button>
     <mat-divider></mat-divider>
   </mat-list-item>
 </mat-list>

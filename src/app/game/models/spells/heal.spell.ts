@@ -12,6 +12,7 @@ export class HealSpell extends Spell {
         this.name = Spells.Heal;
         this.icon = 'local_hospital';
         this.color = 'primary';
+        this.maxRank = 5;
         this.loadRank(0);
     }
     

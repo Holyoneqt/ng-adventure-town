@@ -12,6 +12,7 @@ export class Attack extends Spell {
         this.name = Spells.Attack;
         this.icon = 'gavel';
         this.color = 'accent';
+        this.maxRank = 6;
         this.loadRank(1);
     }
     
@@ -22,13 +23,13 @@ export class Attack extends Spell {
 
     public getNextSpellRankData(): SpellRankData {
         const data = attackRanks[this.rank + 1];
-        this.description = `Attack with your Weapon to deal Damage equal to ${data.spMod} times your Physical Damage (${Math.floor(data.spMod * this.game.champion.physicalDamage.get())} Damage.)`;
         return data;
     }
 
     public loadRank(rank: number): void {
         const rankData = attackRanks[rank];
         this.rank = rankData.rank;
+        this.description = `Attack with your Weapon to deal Damage equal to ${rankData.spMod} times your Physical Damage (${Math.floor(rankData.spMod * this.game.champion.physicalDamage.get())} Damage.)`;
         this.manaCost = rankData.manaCost;
         this.spMod = rankData.spMod;
     }

@@ -12,6 +12,7 @@ export class FireSpell extends Spell {
         this.name = Spells.Fire;
         this.icon = 'whatshot';
         this.color = 'warn';
+        this.maxRank = 5;
         this.loadRank(0);
     }
     
@@ -22,13 +23,13 @@ export class FireSpell extends Spell {
 
     public getNextSpellRankData(): SpellRankData {
         const data = fireRanks[this.rank + 1];
-        this.description = `Deals ${data.spMod * this.game.champion.spellDamage.get()} Damage. (Cost: ${data.manaCost} Mana)`;
         return data;
     }
 
     public loadRank(rank: number): void {
         const rankData = fireRanks[rank];
         this.rank = rankData.rank;
+        this.description = `Deals ${rankData.spMod * this.game.champion.spellDamage.get()} Damage. (Cost: ${rankData.manaCost} Mana)`;
         this.manaCost = rankData.manaCost;
         this.spMod = rankData.spMod;
     }

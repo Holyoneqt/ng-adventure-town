@@ -8,13 +8,14 @@ import { Mine } from '../models/buildings/mine.model';
 import { Warehouse } from '../models/buildings/warehouse.model';
 import { Game } from '../models/game.model';
 import { StackedItem } from '../models/interfaces.model';
-import { Resource } from '../models/resources.enum';
 import { FireSpell } from '../models/spells/fire.spell';
 import { HealSpell } from '../models/spells/heal.spell';
 import { SiphonSpell } from '../models/spells/siphon.spell';
 import { Spell } from '../models/spells/spell.model';
 import { ItemStacker } from '../util/item-stacker';
 import { CraftingItemCollection } from './../collections/item.collection';
+import { emptySaveGame, SaveGame } from './../models/interfaces.model';
+import { Resource } from './../models/resources.enum';
 import { Attack } from './../models/spells/attack.spell';
 import { AdventureService } from './adventure.service';
 import { BuildingService } from './building.service';
@@ -24,104 +25,93 @@ import { SpellService } from './spell.service';
 @Injectable()
 export class DataService {
 
-    private readonly gameKey: string = 'game';
-    private readonly buildingKey: string = 'buildings';
-    private readonly spellsKey: string = 'spells';
-    private game: Game;
+    private readonly saveGameKey: string = 'ng-adventure-town-save';
+    public game: Game;
 
-    constructor(private itemService: ItemService, private adventureService: AdventureService, private buildingService: BuildingService, private spellService: SpellService) {
-    }
-
-    public getGame(): Game {
-        return this.game;
+    constructor(public items: ItemService, public adventures: AdventureService, public buildings: BuildingService, public spells: SpellService) {
+        this.game = new Game();
+        const savedGame = localStorage.getItem(this.saveGameKey);
+        if (savedGame === null) {
+            this.loadData(emptySaveGame);
+            this.game.add(Resource.Gold, 10);
+        } else {
+            this.loadData(JSON.parse(savedGame));
+        }
     }
 
     public saveGame(): void {
-        localStorage.setItem(this.gameKey, this.game.exportSave());
-        this.saveBuildings();
-        this.saveSpells();
+        const saveGameData: SaveGame = {
+            game: this.game.exportSave(),
+            buildings: this.exportBuildingsSave(),
+            spells: this.exportSpellsSave()
+        };
+
+        localStorage.setItem(this.saveGameKey, JSON.stringify(saveGameData));
     }
 
-    public loadData(): void {
-        this.game = new Game();
-        const localGame: any = localStorage.getItem(this.gameKey);
-        let champItems = [];
+    public loadData(saveGameData: SaveGame): void {
+        this.loadGame(saveGameData);
+        this.loadItemsFromCollection();
+        this.loadChampionItems(saveGameData);
+        this.loadAdventuresFromCollection();
+        this.loadBuildings(saveGameData);
+        this.loadSpells(saveGameData);
 
-        if (localGame === null) {
-            this.game.add(Resource.Gold, 10);
-        } else {
-            const parsedGame = JSON.parse(localGame);
-            console.log(parsedGame);
-            this.initializeLoadedGame(parsedGame);
-            champItems = parsedGame.champion.items;
-        }
-
-        this.loadItems();
-        this.initChampItems(champItems);
-        this.loadAdventures();
-        this.loadBuildings();
-        this.loadSpells();
     }
 
-    private loadItems(): void {
-        this.itemService.import(JunkItemCollection, GemItemCollection, CraftingItemCollection);
+    private loadGame(saveGameData: SaveGame): void {
+        this.game.importSave(saveGameData);
     }
 
-    private initChampItems(champItems: any[]): void {
+    private loadItemsFromCollection(): void {
+        this.items.import(JunkItemCollection, GemItemCollection, CraftingItemCollection);
+    }
+
+    private loadChampionItems(saveGameData: SaveGame): void {
         const stacker = new ItemStacker();
         const stack: StackedItem[] = [];
-        champItems.forEach(i => {
-            stack.push({ item: this.itemService.getById(i.item), amount: i.amount });
+        saveGameData.game.champion.items.forEach(i => {
+            stack.push({ item: this.items.getById(i.item), amount: i.amount });
         });
         stacker.addItems(stack);
         this.game.champion.addItems(stacker.items.get());
     }
 
-    private loadAdventures(): void {        
-        this.adventureService.import(AdventureCollection);
+    private loadAdventuresFromCollection(): void {        
+        this.adventures.import(AdventureCollection);
     }
 
-    private loadBuildings(): void {
-        const buildingsLocal = localStorage.getItem(this.buildingKey);
-        const buildingsSave = buildingsLocal !== null ? JSON.parse(buildingsLocal) : [];
-        
+    private loadBuildings(saveGameData: SaveGame): void {        
         const buildings: Building[] = [];
         buildings.push(new Lumbermill(this.game));
         buildings.push(new Mine(this.game));
         buildings.push(new Warehouse(this.game));
         
-        this.buildingService.import(buildings, buildingsSave);
+        this.buildings.import(buildings, saveGameData.buildings);
     }
 
-    private saveBuildings(): void {
-        const buildings = this.buildingService.getAll();
+    private exportBuildingsSave(): { name: string, level: number }[] {
+        const buildings = this.buildings.getAll();
         const save: { name: string, level: number }[] = [];
         buildings.forEach(b => save.push({ name: b.name, level: b.level }));
-        localStorage.setItem(this.buildingKey, JSON.stringify(save));
+        return save;
     }
 
-    private loadSpells(): void {
-        const spellsLocal = localStorage.getItem(this.spellsKey);
-        const spellsSave = spellsLocal !== null ? JSON.parse(spellsLocal) : [];
-
+    private loadSpells(saveGameData: SaveGame): void {
         const spells: Spell[] = [];
         spells.push(new Attack(this.game));
         spells.push(new HealSpell(this.game));
         spells.push(new FireSpell(this.game));   
         spells.push(new SiphonSpell(this.game));
 
-        this.spellService.import(spells, spellsSave);
+        this.spells.import(spells, saveGameData.spells);
     }
 
-    private saveSpells(): void {
-        const spells = this.spellService.getAll();
+    private exportSpellsSave(): { name: string, rank: number }[] {
+        const spells = this.spells.getAll();
         const save: { name: string, rank: number }[] = [];
         spells.forEach(s => save.push({name: s.name, rank: s.rank}));
-        localStorage.setItem(this.spellsKey, JSON.stringify(save));
-    }
-
-    private initializeLoadedGame(localStorageValue: any) {
-        this.game.importSave(localStorageValue);
+        return save;
     }
 
 }

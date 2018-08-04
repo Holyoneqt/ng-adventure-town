@@ -12,6 +12,7 @@ export class SiphonSpell extends Spell {
         this.name = Spells.Siphon;
         this.icon = 'blur_linear';
         this.color = 'primary';
+        this.maxRank = 5;
         this.loadRank(0);
     }
     

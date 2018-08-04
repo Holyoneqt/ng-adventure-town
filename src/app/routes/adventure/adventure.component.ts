@@ -1,17 +1,17 @@
-import { ItemService } from '../../game/services/items.service';
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 import { Adventure } from '../../game/models/adventures/adventure.model';
-import { Enemy } from '../../game/models/entities/enemy.model';
-import { Spell } from '../../game/models/spells/spell.model';
 import { Champion } from '../../game/models/entities/champion.model';
+import { Enemy } from '../../game/models/entities/enemy.model';
+import { ItemType } from '../../game/models/items/item-type.enum';
 import { Resource } from '../../game/models/resources.enum';
+import { Spell } from '../../game/models/spells/spell.model';
 import { AdventureService } from '../../game/services/adventure.service';
 import { DataService } from '../../game/services/data.service';
+import { ItemService } from '../../game/services/items.service';
 import { SpellService } from '../../game/services/spell.service';
 import { MessageService, MessageType } from '../../services/message.service';
-import { ItemType } from '../../game/models/items/item-type.enum';
 
 
 @Component({
@@ -38,10 +38,10 @@ export class AdventureComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.allAdventures = this.adventureService.getAll();
-    this.champ = this.dataService.getGame().champion;
+    this.champ = this.dataService.game.champion;
     this.learnedSpells = [];
 
-    let spellKeyId = 2; // Starts at 2 because Key '1' is reserved for Attack
+    let spellKeyId = 1; // Starts at 2 because Key '1' is reserved for Attack
     this.spellService.getWhere(spell => spell.rank > 0).forEach(s => {
       this.learnedSpells.push({ keyId: spellKeyId, spell: s });
       spellKeyId++;
@@ -73,7 +73,7 @@ export class AdventureComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public takeLoot(enemy: Enemy): void {
-    this.dataService.getGame().add(Resource.Gold, enemy.goldReward);
+    this.dataService.game.add(Resource.Gold, enemy.goldReward);
     const loot = this.itemService.getRandom(ItemType.Junk, 3);
     this.champ.addItems(loot);
     let msg = `You looted: ${enemy.goldReward} Gold.`;
@@ -116,7 +116,7 @@ export class AdventureComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initKeybinds(): void {
-    window.onkeypress = (e) => {
+    window.onkeyup = (e) => {
       const now = Date.now();
       if (now - this.lastPressed > this.globalCooldown) {
         this.lastPressed = now;

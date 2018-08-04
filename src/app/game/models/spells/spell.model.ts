@@ -10,6 +10,7 @@ export abstract class Spell {
     public description: string;
 
     public rank: number;
+    public maxRank: number;
     public manaCost: number;
 
     public icon: string;
@@ -34,6 +35,10 @@ export abstract class Spell {
         } else {
             return false;
         }
+    }
+
+    public isMaxLevel(): boolean {
+        return this.rank >= this.maxRank;
     }
 
     public getNextSpellRankData(): SpellRankData {

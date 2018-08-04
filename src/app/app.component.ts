@@ -1,10 +1,10 @@
-import { Resource } from './game/models/resources.enum';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Champion } from './game/models/entities/champion.model';
 import { Stat } from './game/models/entities/stats.enum';
 import { Game } from './game/models/game.model';
+import { Resource } from './game/models/resources.enum';
 import { DataService } from './game/services/data.service';
 import { MessageService, MessageType } from './services/message.service';
 
@@ -50,8 +50,7 @@ export class AppComponent implements OnInit {
   }
 
   private initialize(): void {
-    this.dataService.loadData();
-    this.game = this.dataService.getGame();
+    this.game = this.dataService.game;
     this.champ = this.game.champion;
   }
 
@@ -60,5 +59,10 @@ export class AppComponent implements OnInit {
     this.champ.onDeath.subscribe(() => this.messageService.writeMessage(MessageType.Error, 'You died!'));
   }
 
+
+
+  public healFull(): void {
+    this.champ.heal(10000000);
+  }
 
 }
